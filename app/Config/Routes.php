@@ -2,6 +2,7 @@
 
 use CodeIgniter\Router\RouteCollection;
 
+
 /**
  * @var RouteCollection $routes
  */
@@ -16,5 +17,9 @@ $routes->group('admin', ['filter' => 'adminAuth'], function ($routes) {
     $routes->get('login', 'Admin::login');
     $routes->match(['get', 'post'], 'authenticate' , 'Admin::authenticate');
     $routes->get('dashboard' , 'Admin::dashboard');
+    $routes->get('blog' , 'BlogController::blog');
+    $routes->get('editblog' , 'BlogController::editblog');
+    $routes->post('updateblog' , 'BlogController::updateBlog');
+    $routes->get('create' , 'BlogController::createBlog');
 });
 
