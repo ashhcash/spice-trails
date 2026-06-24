@@ -16,22 +16,22 @@
         <h1 id="admin-login-title">Sign in to manage your blog</h1>
       </div>
 
-      <form class="admin-login-form" action="admin/login" method="post">
+      <form class="admin-login-form" action="authenticate" method="post">
         <?= csrf_field() ?>
         <label for="email">Email address</label>
-        <input id="email" name="email" type="email" placeholder="admin@example.com" autocomplete="email" required>
+        <input id="email" name="email" type="email" placeholder="email@example.com" autocomplete="email" required>
 
         <label for="password">Password</label>
         <input id="password" name="password" type="password" placeholder="Enter password" autocomplete="current-password"
           required>
 
-        <div class="admin-login-options">
+        <!-- <div class="admin-login-options">
           <label class="admin-login-check">
             <input name="remember" type="checkbox">
             <span>Remember me</span>
           </label>
           <a href="#">Forgot password?</a>
-        </div>
+        </div> -->
 
         <button class="button primary" type="submit">Login</button>
       </form>

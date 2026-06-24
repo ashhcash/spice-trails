@@ -7,6 +7,14 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('about', 'Home::about');
-$routes ->get('registration' , 'Home::registration');
-$routes->get('admin', 'Admin::login');
-$routes->get('admin/login' , 'Admin::adminLogin');
+$routes->get('registration', 'Home::registration');
+
+
+
+$routes->group('admin', ['filter' => 'adminAuth'], function ($routes) {
+    $routes->get('/', 'Admin::login');
+    $routes->get('login', 'Admin::login');
+    $routes->match(['get', 'post'], 'authenticate' , 'Admin::authenticate');
+    $routes->get('dashboard' , 'Admin::dashboard');
+});
+
