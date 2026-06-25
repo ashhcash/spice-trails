@@ -23,8 +23,8 @@
     <a class="brand" href="#top" aria-label="Spice Trails home">
       <span class="brand-mark">ST</span>
       <span>
-        <strong>Spice Trails</strong>
-        <small>Every plate has a place</small>
+        <strong>Food Blog</strong>
+        <small>by aonebox</small>
       </span>
     </a>
 

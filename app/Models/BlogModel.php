@@ -17,6 +17,8 @@ class BlogModel extends Model
         'blog_image',
         'description',
         'category',
+        'text',
+        'date'
         
     ];
 

@@ -2,6 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Models\CategoryModel;
+use App\Models\BlogModel;
+
 class Admin extends BaseController
 {
     public function login(): string
@@ -9,26 +12,34 @@ class Admin extends BaseController
         return view('admin/login');
     }
 
-    public function authenticate(){
+    public function authenticate()
+    {
         $adminpass = env('admin-password');
         $adminemail = env('admin-email');
 
         $loginEmail = $this->request->getPost('email');
         $loginpass = md5($this->request->getPost('password'));
 
-        if($adminemail === $loginEmail && $adminpass === $loginpass){
+        if ($adminemail === $loginEmail && $adminpass === $loginpass) {
             session()->set(
                 [
                     'admin_logged_in' => true,
                     'admin_email' => $loginEmail,
-                ]
-            );
-            return redirect()->to('admin/dashboard');
+                ]);
 
-        };
+                return redirect()->to('admin/dashboard');
+            }
+            else {
+
+            return redirect()->back()->with('error', 'Incorrect email or password');
+        }
+
+        
+        ;
     }
 
-    public function dashboard(){
+    public function dashboard()
+    {
         return view('admin/dashboard');
     }
 
@@ -36,5 +47,46 @@ class Admin extends BaseController
     {
         session()->destroy();
         return redirect()->to('admin/login');
+    }
+
+
+
+    public function category()
+    {
+        $model = new CategoryModel();
+
+
+        $data['categories'] = $model->findAll();
+
+        return view('admin/category/index', $data);
+
+    }
+
+
+    public function categoryStore()
+    {
+        $model = new CategoryModel();
+
+        $data = [
+
+            'name' => $this->request->getPost('name')
+        ];
+
+        if ($model->insert($data)) {
+            return redirect()->back()->with('done', 'Category created successfully');
+        } else {
+            return redirect()->back()->withInput()->with('failed', 'Failed to create blog');
+        }
+
+
+    }
+
+    public function categoryDelete($id)
+    {
+        $model = new CategoryModel();
+
+        $model->delete($id);
+
+        return redirect()->back()->with('deleted', 'Category Deleted Successfully');
     }
 }

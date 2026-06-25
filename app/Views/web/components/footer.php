@@ -11,7 +11,12 @@
   </form>
 </section>
 <footer class="site-footer">
-  <p>Spice Trails Food Blog</p>
+  <p><a href="<?=base_url('/')?>" class="footer-link">Food Blog</a> . All Rights Reserved. Managed by <a href="https://www.aonebox.com/" class="footer-link">a-one box</a></p>
+  <style>
+    .footer-link{
+      color: #a7342c;
+    }
+  </style>
   <div>
     <a href="#stories">Stories</a>
     <a href="#about">About</a>

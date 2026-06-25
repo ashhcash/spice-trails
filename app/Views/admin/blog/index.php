@@ -72,9 +72,9 @@
                                         style="height: 60px; width: 60px; object-fit: cover; border-radius: 5px;">
                                 </td>
 
-                                <td><?= $b['publish_date']?></td>
+                                <td><?= $b['date']?></td>
 
-                                <td><?= $b['slug']?></td>
+                                <td><?= $b['category']?></td>
 
                                 <td><?= $b['blog_name']?></td>
 
@@ -85,13 +85,13 @@
                                 </td>
 
                                 <td>
-                                    <a href="<?= base_url('admin/blog/edit/' . $b['blog_id']) ?>" class="btn btn-success btn-sm text-white">
+                                    <a href="<?= base_url('admin/blog/edit/' . $b['id']) ?>" class="btn btn-success btn-sm text-white">
                                         Edit
                                     </a>
                                 </td>
 
                                 <td>
-                                    <a href="<?= base_url('admin/blog/delete/' . $b['blog_id']) ?>" class="btn btn-danger btn-sm"
+                                    <a href="<?= base_url('admin/blog/delete/' . $b['id']) ?>" class="btn btn-danger btn-sm"
                                         onclick="return confirm('Are you sure you want to delete this blog?')">
                                         Delete
                                     </a>

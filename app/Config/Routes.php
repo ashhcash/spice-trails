@@ -21,6 +21,12 @@ $routes->group('admin', ['filter' => 'adminAuth'], function ($routes) {
     $routes->get('editblog' , 'BlogController::editblog');
     $routes->post('updateblog' , 'BlogController::updateBlog');
     $routes->get('blog/create' , 'BlogController::createBlog');
+    $routes->post('blog/store' , 'BlogController::storeBlog');
     $routes->get('logout' , 'Admin::logout');
+    $routes->get('category' , 'Admin::category');
+
+    $routes->post('category/store' , 'Admin::categoryStore');
+
+    $routes->get('category/delete/(:num)' , 'Admin::categoryDelete/$1');
 });
 
