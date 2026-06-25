@@ -8,7 +8,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('about', 'Home::about');
-$routes->get('registration', 'Home::registration');
+
 
 
 
@@ -20,6 +20,7 @@ $routes->group('admin', ['filter' => 'adminAuth'], function ($routes) {
     $routes->get('blog' , 'BlogController::blog');
     $routes->get('editblog' , 'BlogController::editblog');
     $routes->post('updateblog' , 'BlogController::updateBlog');
-    $routes->get('create' , 'BlogController::createBlog');
+    $routes->get('blog/create' , 'BlogController::createBlog');
+    $routes->get('logout' , 'Admin::logout');
 });
 

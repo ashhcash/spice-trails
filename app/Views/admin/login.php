@@ -16,6 +16,8 @@
         <h1 id="admin-login-title">Sign in to manage your blog</h1>
       </div>
 
+    
+
       <form class="admin-login-form" action="authenticate" method="post">
         <?= csrf_field() ?>
         <label for="email">Email address</label>

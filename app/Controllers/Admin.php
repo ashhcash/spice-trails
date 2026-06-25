@@ -31,4 +31,10 @@ class Admin extends BaseController
     public function dashboard(){
         return view('admin/dashboard');
     }
+
+    public function logout()
+    {
+        session()->destroy();
+        return redirect()->to('admin/login');
+    }
 }

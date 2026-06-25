@@ -4,11 +4,12 @@
 
 <aside class="main-sidebar sidebars-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="<?= base_url('admin') ?>" class="brand-link">
-        <img src=<?= base_url("public/assets/images/logo/Name.png") ?>  height="70" width="180">
-  
-        <!-- class="brand-image img-circle elevation-3" style="opacity: .8" -->
-        <!-- <span class="brand-text font-weight-light">Gift House Nutrition Shop</span> -->
+    <a class="brand p-3" href="#top" aria-label="Spice Trails home">
+      <span class="brand-mark">ST</span>
+      <span>
+        <strong>Spice Trails</strong>
+        <small>Every plate has a place</small>
+      </span>
     </a>
 
     <!-- Sidebar -->
@@ -103,6 +104,64 @@ $currentUrl = current_url();
             </ul>
 
         </li>
+
+<!-- 
+        category menu -->
+
+
+         <?php
+        $categoryActive = (
+            uri_string() == 'admin/category' ||
+            uri_string() == 'admin/category/create' ||
+            strpos(uri_string(), 'admin/category/edit') !== false
+        );
+        ?>
+
+
+        <li class="nav-item <?= $categoryActive ? 'menu-open' : '' ?>">
+
+            <a href="#"
+                class="nav-link <?= $categoryActive ? 'active' : '' ?>">
+
+                <i class="fas fa-list"></i>
+
+                <p>
+                    Category Management
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+
+            </a>
+
+            <ul class="nav nav-treeview">
+
+                <li class="nav-item">
+
+                    <a href="<?= base_url('admin/category') ?>"
+                        class="nav-link <?= (uri_string() == 'admin/category') ? 'active' : '' ?>">
+
+                        <i class="far fa-list-alt nav-icon"></i>
+                        <p>All categories</p>
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a href="<?= base_url('admin/category/create') ?>"
+                        class="nav-link <?= (uri_string() == 'admin/category/create') ? 'active' : '' ?>">
+
+                        <i class="fas fa-plus-circle nav-icon"></i>
+                        <p>Create Category</p>
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </li>
+
 
         <!-- Messages -->
         <!-- <li class="nav-item">
