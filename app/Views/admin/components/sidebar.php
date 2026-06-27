@@ -4,7 +4,7 @@
     integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
     crossorigin="anonymous"></script>
 
-<aside class="main-sidebar sidebars-primary elevation-4">
+<aside class="main-sidebar bg-light sidebars-primary elevation-4">
     <!-- Brand Logo -->
     <a class="brand p-3 pb-5" href="#top" aria-label="Spice Trails home">
         <span class="brand-mark">FB</span>

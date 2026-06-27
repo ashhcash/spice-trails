@@ -16,7 +16,7 @@
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href=<?= base_url("public/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css") ?>>
     <!-- Theme style -->
-    <link rel="stylesheet" href=<?= base_url("public/admin/dist/css/adminlte.min.css") ?>>
+    <link rel="stylesheet" href=<?= base_url("public/admin/dist/css/adminlte.min2167.css") ?>>
 
     <link rel="stylesheet" href=<?= base_url("public/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css") ?>>
     <link rel="stylesheet" href=<?= base_url("public/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css") ?>>
@@ -25,8 +25,6 @@
    
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
 
     <!-- <link rel="stylesheet" href="<?= base_url('public/assets/css/styles.css')?>"> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -38,7 +36,7 @@
     <div class="wrapper">
 
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar">
+        <nav class="main-header navbar navbar-expand navbar bg-white">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">

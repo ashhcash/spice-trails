@@ -14,8 +14,6 @@
   <!-- overlayScrollbars -->
   <script src=<?= base_url("public/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js") ?>></script>
   <!-- AdminLTE App -->
-  <script src=<?= base_url("public/admin/dist/js/adminlte.js") ?>></script>
-  <script src=<?= base_url("public/admin/dist/js/adminlte2167.js") ?>></script>
   <script src=<?= base_url("public/admin/dist/js/adminlte.min2167.js") ?>></script>
 
 
@@ -26,7 +24,7 @@
   <script src=<?= base_url("public/admin/plugins/jquery-mapael/jquery.mapael.min.js") ?>></script>
   <script src=<?= base_url("public/admin/plugins/jquery-mapael/maps/usa_states.min.js") ?>></script>
   <!-- ChartJS -->
-  <script src="plugins/chart.js/Chart.min.js"></script>
+  <script src="<?= base_url('public/admin/plugins/chart.js/Chart.min.js')?>"></script>
 
   <!-- DataTables  & Plugins -->
   <script src=<?= base_url("public/admin/plugins/datatables/jquery.dataTables.min.js") ?>></script>
@@ -64,9 +62,9 @@
   </script>
   
   <!-- AdminLTE for demo purposes -->
-  <script src="dist/js/demo.js"></script>
+  <script src="<?= base_url('dist/js/demo.js')?>"></script>
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-  <script src="dist/js/pages/dashboard2.js"></script>
+  <script src="<?= base_url('public/admin/dist/js/pages/dashboard2.js')?>"></script>
 
 
   </body>
