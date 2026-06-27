@@ -18,6 +18,8 @@ class BlogController extends BaseController
         return view('admin/blog/index', $data);
     }
 
+
+
     public function editblog()
     {
         return view('adnin/blog/edit');
@@ -47,6 +49,7 @@ class BlogController extends BaseController
         $rules = [
             'blog_name' => 'required|min_length[3]',
             'category' => 'required',
+            'slug' => 'required|min_length[3]',
             'description' => 'required',
             'blog_image' => 'uploaded[blog_image]|is_image[blog_image]|max_size[blog_image,2048]'
         ];
@@ -55,7 +58,7 @@ class BlogController extends BaseController
          if (!$this->validate($rules)) {
             return redirect()->back()
                 ->withInput()
-                ->with('error', implode('<br>', $this->validator->getErrors()));
+                ->with('error', 'Something went wrong');
         }
 
 
@@ -79,9 +82,10 @@ class BlogController extends BaseController
             'category' => $this->request->getPost('category'),
             'description' => $this->request->getPost('description'),
             'blog_name' => $this->request->getPost('blog_name'),
-            'publish_date' => $this->request->getPost('publish_date'),
+            'text' => $this->request->getPost('text'),
             'blog_image' => $imagePath,
-            'date' => $this->request->getPost('date')
+            'date' => $this->request->getPost('date'),
+            'slug' => url_title($this->request->getPost('slug'), '-', true),
         ];
 
 

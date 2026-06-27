@@ -68,7 +68,7 @@
 
                                 <!-- ✅ recipe Image Column -->
                                 <td>
-                                    <img src="<?= base_url() ?>public/assets/uploads/<?= basename($b['image']) ?>" alt="recipe Image"
+                                    <img src="<?= base_url() ?>public/assets/recipeuploads/<?= basename($b['image']) ?>" alt="recipe Image"
                                         style="height: 60px; width: 60px; object-fit: cover; border-radius: 5px;">
                                 </td>
 

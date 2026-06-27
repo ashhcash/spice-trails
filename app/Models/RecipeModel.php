@@ -18,7 +18,8 @@ class RecipeModel extends Model
         'category',
         'date',
         'text',
-        'description'
+        'description',
+        'slug'
     ];
 
     protected bool $allowEmptyInserts = false;

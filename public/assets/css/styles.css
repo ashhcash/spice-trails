@@ -416,6 +416,177 @@ input {
   font-weight: 800;
 }
 
+.blog-list-hero {
+  padding: clamp(48px, 8vw, 94px) clamp(18px, 5vw, 76px);
+  color: #fff;
+  background:
+    linear-gradient(90deg, rgba(33, 29, 26, 0.86), rgba(39, 100, 74, 0.5)),
+    url("https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=1800&q=85") center/cover;
+}
+
+.blog-list-hero div {
+  max-width: 760px;
+}
+
+.blog-list-hero h1 {
+  margin: 0;
+  max-width: 12ch;
+  font-size: clamp(2.6rem, 6vw, 5.4rem);
+  line-height: 0.96;
+  letter-spacing: 0;
+}
+
+.blog-list-hero p:not(.eyebrow) {
+  max-width: 620px;
+  margin: 20px 0 0;
+  color: rgba(255, 255, 255, 0.88);
+  font-family: Arial, sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.blog-list-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+  gap: clamp(26px, 4vw, 52px);
+  padding: clamp(40px, 7vw, 76px) clamp(18px, 5vw, 76px);
+}
+
+.blog-filter-sidebar {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+
+.blog-search-form {
+  display: grid;
+  gap: 10px;
+}
+
+.blog-search-form input {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 14px;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  outline: none;
+}
+
+.blog-search-form input:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(39, 100, 74, 0.14);
+}
+
+.blog-search-form .button {
+  width: 100%;
+}
+
+.blog-category-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.blog-category-list a,
+.active-blog-filters span,
+.active-blog-filters a {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--muted) !important;
+  font-family: Arial, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.blog-category-list a.active,
+.blog-category-list a:hover {
+  color: #fff !important;
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.blog-list-content {
+  min-width: 0;
+}
+
+.active-blog-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 22px 0 0;
+}
+
+.active-blog-filters a {
+  color: #fff !important;
+  background: var(--red);
+  border-color: var(--red);
+}
+
+.blog-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 28px;
+}
+
+.blog-card-grid .empty-state {
+  grid-column: 1 / -1;
+}
+
+.blog-card {
+  display: grid;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 14px 28px rgba(67, 42, 20, 0.08);
+}
+
+.blog-card-image {
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--panel);
+}
+
+.blog-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 220ms ease;
+}
+
+.blog-card:hover .blog-card-image img {
+  transform: scale(1.04);
+}
+
+.blog-card-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 260px;
+  padding: 22px;
+}
+
+.blog-card-body h3 {
+  margin: 12px 0 10px;
+  font-size: clamp(1.35rem, 2.2vw, 1.9rem);
+  line-height: 1.08;
+}
+
+.blog-card-body p {
+  margin: 0;
+  color: var(--muted);
+  font-family: Arial, sans-serif;
+  line-height: 1.62;
+}
+
 .feature-band {
   display: flex;
   align-items: center;
@@ -498,6 +669,7 @@ input {
 @media (max-width: 900px) {
   .site-header,
   .layout,
+  .blog-list-layout,
   .newsletter {
     grid-template-columns: 1fr;
   }
@@ -530,6 +702,10 @@ input {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .blog-filter-sidebar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .profile {
     grid-column: 1 / -1;
   }
@@ -549,12 +725,17 @@ input {
     grid-template-columns: 1fr;
   }
 
+  .blog-card-grid {
+    grid-template-columns: 1fr;
+  }
+
   .post-card img {
     aspect-ratio: 16 / 10;
     min-height: 0;
   }
 
   .sidebar,
+  .blog-filter-sidebar,
   .newsletter form,
   .feature-band {
     display: grid;

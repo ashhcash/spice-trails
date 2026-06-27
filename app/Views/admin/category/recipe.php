@@ -1,5 +1,5 @@
 <?= $this->extend('admin/components/assemble') ?>
-<?= $this->section('title') ?>Recipes<?= $this->endSection() ?>
+<?= $this->section('title') ?>Recipes Category<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 
 
@@ -7,13 +7,11 @@
 
 
     <div>
-        <a href="<?= base_url('admin/category/create') ?>">
-            <button type="button" class="btn btn-primary m-2">Add Recipe</button>
-        </a>
+      
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Recipe List</h3>
+                <h3 class="card-title">Recipe Category List</h3>
             </div>
             <?php if (session()->getFlashdata('success')): ?>
                 <div class="alert alert-success alert-dismissible m-2">
@@ -48,34 +46,34 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Recipe Name</th>
+                            <th>Category Name</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <?php foreach ($recipeCategory as $category => $b): ?>
-
+                        <?php foreach ($recipeCategory as $index => $b): ?>
                             <tr>
 
+                                <td><?= $index + 1 ?></td>
 
-                                <td><?= $category + 1 ?></td>
-
-
-
-                                <td><?= $b['name'] ?></td>
-
-
-
-
+                                <!-- Name column -->
                                 <td>
-                                    <a href="<?= base_url('admin/recipecategory/edit/') ?>"
-                                        class="btn btn-success btn-sm text-white">
-                                        Edit
-                                    </a>
+                                    <span class="text-name"><?= $b['name'] ?></span>
+                                    <input type="text" class="form-control edit-input d-none" value="<?= $b['name'] ?>">
                                 </td>
 
+                                <!-- Edit / Update -->
+                                <td>
+                                    <button class="btn btn-success btn-sm editBtn">Edit</button>
+                                    <button class="btn btn-primary btn-sm updateBtn d-none" data-id="<?= $b['id'] ?>">
+                                        Update
+                                    </button>
+                                    <button class="btn btn-secondary btn-sm cancelBtn d-none">Cancel</button>
+                                </td>
+
+                                <!-- Delete -->
                                 <td>
                                     <a href="<?= base_url('admin/recipecategory/delete/' . $b['id']) ?>"
                                         class="btn btn-danger btn-sm"
@@ -83,7 +81,6 @@
                                         Delete
                                     </a>
                                 </td>
-
 
                             </tr>
                         <?php endforeach ?>
@@ -110,7 +107,7 @@
 
 
 
-    <form method="POST" action="<?= base_url('admin/category/store') ?>" class="upload-form z-3 shadow p-5"
+    <form method="POST" action="<?= base_url('admin/category/recipecatstore') ?>" class="upload-form z-3 shadow p-5"
         enctype="multipart/form-data">
 
 
@@ -151,6 +148,65 @@
 
 
 </main>
+
+
+<script>
+$(document).ready(function(){
+
+    // Click Edit
+    $('.editBtn').click(function(){
+        let row = $(this).closest('tr');
+
+        row.find('.text-name').addClass('d-none');
+        row.find('.edit-input').removeClass('d-none');
+
+        row.find('.editBtn').addClass('d-none');
+        row.find('.updateBtn, .cancelBtn').removeClass('d-none');
+    });
+
+    // Click Cancel
+    $('.cancelBtn').click(function(){
+        let row = $(this).closest('tr');
+
+        row.find('.edit-input').addClass('d-none');
+        row.find('.text-name').removeClass('d-none');
+
+        row.find('.updateBtn, .cancelBtn').addClass('d-none');
+        row.find('.editBtn').removeClass('d-none');
+    });
+
+    // Click Update (AJAX)
+    $('.updateBtn').click(function(){
+        let row = $(this).closest('tr');
+        let id = $(this).data('id');
+        let newName = row.find('.edit-input').val();
+
+        $.ajax({
+            url: "<?= base_url('admin/recipecategory/update') ?>",
+            type: "POST",
+            data: {
+                id: id,
+                name: newName
+            },
+            success: function(response){
+                // update UI
+                row.find('.text-name').text(newName);
+
+                row.find('.edit-input').addClass('d-none');
+                row.find('.text-name').removeClass('d-none');
+
+                row.find('.updateBtn, .cancelBtn').addClass('d-none');
+                row.find('.editBtn').removeClass('d-none');
+            },
+            error: function(){
+                alert('Update failed');
+            }
+        });
+
+    });
+
+});
+</script>
 
 
 

@@ -9,6 +9,7 @@
     content="A story-first food blog about regional plates, street eats, recipes, and travel notes.">
   <link rel="preconnect" href="https://images.unsplash.com">
   <link rel="stylesheet" href="<?= base_url('public/assets/css/styles.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('public/assets/css/blog.css') ?>">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,7 +21,7 @@
 
 <body>
   <header class="site-header">
-    <a class="brand" href="#top" aria-label="Spice Trails home">
+    <a class="brand" href="<?= base_url()?>" aria-label="Spice Trails home">
       <span class="brand-mark">ST</span>
       <span>
         <strong>Food Blog</strong>
@@ -31,7 +32,8 @@
     <nav class="main-nav" aria-label="Primary navigation">
       <a href="<?= base_url('/') ?>">Home</a>
       <a href="<?= base_url('about') ?>">About</a>
-      <a href="#recipes">Food </a>
+      <a href="<?= base_url('blogs')?>">Food </a>
+      <a href="<?= base_url('recipes')?>">Recipe </a>
       <a href="#about">Travel</a>
     </nav>
   </header>

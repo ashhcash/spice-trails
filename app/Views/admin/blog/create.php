@@ -6,6 +6,17 @@
 
     <!-- ✅ Flash Messages -->
 
+     <?php if (session()->getFlashdata('error')): ?>
+                <div class="alert alert-danger alert-dismissible m-2">
+                    <?= session()->getFlashdata('error') ?>
+
+                    <button type="button" class="close text-darks" data-dismiss="alert"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <?php endif; ?>
+
 
     <h2 class="mb-4">Add New Blog</h2>
 
@@ -26,8 +37,14 @@
 
                 <div class="form-group mb-3">
                     <label><strong>Description</strong></label>
-                    <textarea class="form-control" name="description" rows="3" maxlength="255"
-                        placeholder="less than 255 characters"></textarea>
+                    <input class="form-control" name="description" rows="3" maxlength="255" value="<?= old('description') ?>"
+                        placeholder="less than 255 characters"></input>
+                </div>
+
+                 <div class="form-group mb-3">
+                    <label><strong>Slug</strong></label>
+                    <input class="form-control" name="slug"  maxlength="255" value="<?= old('slug') ?>"
+                        placeholder="less than 255 characters"></input>
                 </div>
 
             </div>
@@ -76,9 +93,9 @@
         </div>
 
         <!-- Hidden description field for submission -->
-        <textarea name="text" id="finalContent" hidden></textarea>
+        <textarea name="text" id="finalContent" value="<?= old('text') ?>" hidden></textarea>
 
-        <button type="submit" class="btn btn-primary mt-3">💾 Save Blog</button>
+        <button type="submit" class="btn btn-primary mt-3" >💾 Save Blog</button>
     </form>
 
 </main>

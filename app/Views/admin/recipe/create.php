@@ -30,6 +30,12 @@
                         placeholder="less than 255 characters"></textarea>
                 </div>
 
+                <div class="form-group mb-3">
+                    <label><strong>Slug</strong></label>
+                    <input class="form-control" name="slug"  maxlength="255" value="<?= old('slug') ?>"
+                        placeholder="less than 255 characters"></input>
+                </div>
+
             </div>
         </div>
 
@@ -45,15 +51,15 @@
             <input type="date" class="form-control" name="date" value="" required>
         </div>
 
-        <!-- recipe Category -->
+        <!-- recipe recipes -->
         <div class="form-group mb-3">
             <label for="category"><strong>recipe Category</strong></label>
             <select name="category" id="category" class="form-control">
                 
-                <?php foreach ($category as $c): ?>
+                <?php foreach ($recipecategories as $c): ?>
 
                     
-                <option value="<?= $c['name'] ?>"><?= $c['name'] ?></option>
+                <option value="<?= $c['name'] ?>" ><?= $c['name'] ?></option>
 
                 <?php endforeach ?>
             </select>

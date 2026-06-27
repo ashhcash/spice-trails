@@ -52,6 +52,10 @@ const formMessage = document.querySelector("#formMessage");
 let activeFilter = "all";
 
 function renderPosts() {
+  if (!postList || !searchInput) {
+    return;
+  }
+
   const term = searchInput.value.trim().toLowerCase();
   const visiblePosts = posts.filter((post) => {
     const matchesFilter = activeFilter === "all" || post.category === activeFilter;
@@ -78,35 +82,39 @@ function renderPosts() {
     : `<p class="empty-state">No stories match that search yet. Try biryani, street, sweet, or travel.</p>`;
 }
 
-filterButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    activeFilter = button.dataset.filter;
-    document.querySelectorAll(".filter").forEach((item) => {
-      item.classList.toggle("active", item.dataset.filter === activeFilter);
+if (postList && searchInput) {
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      activeFilter = button.dataset.filter;
+      document.querySelectorAll(".filter").forEach((item) => {
+        item.classList.toggle("active", item.dataset.filter === activeFilter);
+      });
+      renderPosts();
+      document.querySelector("#stories").scrollIntoView({ behavior: "smooth", block: "start" });
     });
-    renderPosts();
-    document.querySelector("#stories").scrollIntoView({ behavior: "smooth", block: "start" });
   });
-});
 
-quickSearchButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    searchInput.value = button.dataset.search;
-    activeFilter = "all";
-    document.querySelectorAll(".filter").forEach((item) => {
-      item.classList.toggle("active", item.dataset.filter === "all");
+  quickSearchButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      searchInput.value = button.dataset.search;
+      activeFilter = "all";
+      document.querySelectorAll(".filter").forEach((item) => {
+        item.classList.toggle("active", item.dataset.filter === "all");
+      });
+      renderPosts();
+      document.querySelector("#stories").scrollIntoView({ behavior: "smooth", block: "start" });
     });
-    renderPosts();
-    document.querySelector("#stories").scrollIntoView({ behavior: "smooth", block: "start" });
   });
-});
 
-searchInput.addEventListener("input", renderPosts);
+  searchInput.addEventListener("input", renderPosts);
+}
 
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  formMessage.textContent = `Thanks, ${emailInput.value}. Your next food note is on the way.`;
-  form.reset();
-});
+if (form && emailInput && formMessage) {
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    formMessage.textContent = `Thanks, ${emailInput.value}. Your next food note is on the way.`;
+    form.reset();
+  });
+}
 
 renderPosts();

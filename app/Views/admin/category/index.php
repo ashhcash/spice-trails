@@ -55,36 +55,36 @@
                     </thead>
 
                     <tbody>
- <?php foreach ($categories as $category => $b): ?>
+                        <?php foreach ($categories as $index => $b): ?>
+                            <tr>
 
-                        <tr>
+                                <td><?= $index + 1 ?></td>
 
-                           
-                                <td><?= $category + 1 ?></td>
-
-
-
-                                <td><?= $b['name'] ?></td>
-
-
-
-
+                                <!-- Editable Name -->
                                 <td>
-                                    <a href="<?= base_url('admin/category/edit/') ?>"
-                                        class="btn btn-success btn-sm text-white">
-                                        Edit
-                                    </a>
+                                    <span class="text-name"><?= $b['name'] ?></span>
+                                    <input type="text" class="form-control edit-input d-none" value="<?= $b['name'] ?>">
                                 </td>
 
+                                <!-- Edit / Update -->
                                 <td>
-                                    <a href="<?= base_url('admin/category/delete/'. $b['id']) ?>" class="btn btn-danger btn-sm"
+                                    <button class="btn btn-success btn-sm editBtn">Edit</button>
+                                    <button class="btn btn-primary btn-sm updateBtn d-none" data-id="<?= $b['id'] ?>">
+                                        Update
+                                    </button>
+                                    <button class="btn btn-secondary btn-sm cancelBtn d-none">Cancel</button>
+                                </td>
+
+                                <!-- Delete -->
+                                <td>
+                                    <a href="<?= base_url('admin/category/delete/' . $b['id']) ?>"
+                                        class="btn btn-danger btn-sm"
                                         onclick="return confirm('Are you sure you want to delete this category?')">
                                         Delete
                                     </a>
                                 </td>
 
-                            
-                        </tr>
+                            </tr>
                         <?php endforeach ?>
                     </tbody>
 
@@ -151,6 +151,65 @@
 
 </main>
 
+<script>
+$(document).ready(function(){
 
+    // Edit click
+    $('.editBtn').click(function(){
+        let row = $(this).closest('tr');
+
+        row.find('.text-name').addClass('d-none');
+        row.find('.edit-input').removeClass('d-none').focus();
+
+        row.find('.editBtn').addClass('d-none');
+        row.find('.updateBtn, .cancelBtn').removeClass('d-none');
+    });
+
+    // Cancel click
+    $('.cancelBtn').click(function(){
+        let row = $(this).closest('tr');
+
+        row.find('.edit-input').addClass('d-none');
+        row.find('.text-name').removeClass('d-none');
+
+        row.find('.updateBtn, .cancelBtn').addClass('d-none');
+        row.find('.editBtn').removeClass('d-none');
+    });
+
+    // Update click (AJAX)
+    $('.updateBtn').click(function(){
+        let row = $(this).closest('tr');
+        let id = $(this).data('id');
+        let newName = row.find('.edit-input').val();
+
+        if(newName.trim() === ''){
+            alert('Category name cannot be empty');
+            return;
+        }
+
+        $.ajax({
+            url: "<?= base_url('admin/category/update') ?>",
+            type: "POST",
+            data: {
+                id: id,
+                name: newName
+            },
+            success: function(res){
+                row.find('.text-name').text(newName);
+
+                row.find('.edit-input').addClass('d-none');
+                row.find('.text-name').removeClass('d-none');
+
+                row.find('.updateBtn, .cancelBtn').addClass('d-none');
+                row.find('.editBtn').removeClass('d-none');
+            },
+            error: function(){
+                alert('Update failed');
+            }
+        });
+    });
+
+});
+</script>
 
 <?= $this->endSection() ?>

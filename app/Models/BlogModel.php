@@ -18,7 +18,8 @@ class BlogModel extends Model
         'description',
         'category',
         'text',
-        'date'
+        'date',
+        'slug'
         
     ];
 

@@ -9,6 +9,16 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 $routes->get('about', 'Home::about');
 
+$routes->get('blogs', 'Home::bloglist');
+
+
+$routes->get('blogs/(:segment)', 'Home::singleBlog/$1');
+
+
+$routes->get('recipes', 'Home::recipeList');
+
+$routes->get('recipes/(:segment)' , 'Home::singleRecipe/$1');
+
 
 
 
@@ -26,20 +36,32 @@ $routes->group('admin', ['filter' => 'adminAuth'], function ($routes) {
 
 
 
+
+
+
     // category-----------------------------------------------------------
     $routes->get('category/blog', 'Admin::category');
 
     $routes->post('category/store', 'Admin::categoryStore');
 
+    $routes->post('category/update', 'Admin::categoryUpdate');
+
     $routes->get('category/delete/(:num)', 'Admin::categoryDelete/$1');
 
-    $routes->get('category/recipe' , 'Admin::recipeCategory');
-
-    $routes->get('recipecategory/edit/(:num)' , 'Admin::recipecategoryedit/$1');
+    $routes->get('category/recipe', 'Admin::recipeCategory');
 
 
 
-    
+    // $routes->get('recipecategory/edit/(:num)' , 'Admin::recipecategoryedit/$1');
+
+    $routes->get('recipecategory/delete/(:num)', 'Admin::recipecategorydelete/$1');
+    $routes->post('category/recipecatstore', 'Admin::recipecatstore');
+
+    $routes->post('recipecategory/update', 'Admin::recipecategoryupdate');
+
+
+
+
 
 
 
@@ -48,6 +70,10 @@ $routes->group('admin', ['filter' => 'adminAuth'], function ($routes) {
     $routes->get('recipe', 'Admin::recipe');
 
     $routes->get('recipe/create', 'Admin::createRecipe');
+
+    $routes->post('recipe/store', 'Admin::storeRecipe');
+
+
 
 
 
