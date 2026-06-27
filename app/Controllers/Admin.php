@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Models\CategoryModel;
 use App\Models\BlogModel;
+use App\Models\RecipeCategoryModel;
+use App\Models\RecipeModel;
 
 class Admin extends BaseController
 {
@@ -89,4 +91,44 @@ class Admin extends BaseController
 
         return redirect()->back()->with('deleted', 'Category Deleted Successfully');
     }
+
+
+    public function recipeCategory()
+    {
+        $model = new RecipeCategoryModel();
+
+        $data['recipeCategory'] = $model->findAll();
+
+
+        return view('admin/category/recipe', $data);
+    }
+
+
+    public function recipecategoryedit()
+    {
+        
+    }
+
+
+
+    public function recipe()
+    {
+        $model = new RecipeModel();
+
+
+        $data['recipes'] = $model->findAll();
+
+        return view('admin/recipe/index' , $data);
+    }
+
+    public function createRecipe()
+    {
+        $model = new RecipeModel();
+
+        $data['recipes'] = $model->findAll();
+
+        return view('admin/recipe/create' , $data);
+    }
+
+
 }
