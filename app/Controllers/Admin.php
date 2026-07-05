@@ -9,6 +9,10 @@ use App\Models\RecipeModel;
 
 class Admin extends BaseController
 {
+
+
+
+    // login
     public function login(): string
     {
         return view('admin/login');
@@ -52,7 +56,7 @@ class Admin extends BaseController
     }
 
 
-
+    // category section
     public function category()
     {
         $model = new CategoryModel();
@@ -141,6 +145,7 @@ class Admin extends BaseController
         return redirect()->back()->with('deleted', 'Category Deleted Successfully');
     }
 
+    // recipe section
     public function recipecatstore()
     {
         $model = new RecipeCategoryModel();
@@ -234,6 +239,86 @@ class Admin extends BaseController
             return redirect()->back()->withInput()->with('error', 'Failed to create recipe');
         }
 
+    }
+
+
+
+    public function editRecipe($id)
+    {
+        helper(['form', 'url', 'text']);
+
+
+
+
+        $rules = [
+            'name' => 'required|min_length[3]',
+            'category' => 'required',
+            'description' => 'required',
+            'image' => 'uploaded[image]|is_image[image]|max_size[image,2048]'
+        ];
+
+
+        if (!$this->validate($rules)) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', implode('<br>', $this->validator->getErrors()));
+        }
+
+        $image = $this->request->getFile('image');
+
+
+        if ($image->isValid() && !$image->hasMoved()) {
+            $newName = $image->getRandomName();
+
+            $image->move(ROOTPATH . 'public/assets/recipeuploads', $newName);
+
+            $imagePath = 'recipeuploads/' . $newName;
+
+        } else {
+            $imagePath = null;
+        }
+
+
+        $data = [
+
+            'category' => $this->request->getPost('category'),
+            'description' => $this->request->getPost('description'),
+            'name' => $this->request->getPost('name'),
+            'text' => $this->request->getPost('text'),
+            'image' => $imagePath,
+            'date' => $this->request->getPost('date'),
+            'slug' => url_title($this->request->getPost('slug'), '-', true),
+        ];
+
+
+        $model = new RecipeModel();
+
+
+        if ($model->update($id, $data)) {
+            return redirect()->to('/admin/recipe')->with('success', 'Recipe updated successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Failed to update recipe');
+        }
+    }
+
+    public function viewEditRecipe($id)
+    {
+        $model = new RecipeModel();
+        $CategoryModel = new RecipeCategoryModel();
+
+        $data['recipe'] = $model->find($id);
+
+        $data['recipecategories'] = $CategoryModel->findAll();
+        return view('admin/recipe/edit' , $data);
+    }
+
+    public function deleteRecipe($id)
+    {
+        $model = new RecipeModel();
+
+        $model->delete($id);
+
+        return redirect()->back()->with('delete' , 'Recipe Deleted Successfully');
     }
 
 

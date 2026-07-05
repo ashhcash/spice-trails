@@ -54,7 +54,7 @@
                             <th>Recipe Date</th>
                             <th>Recipe Category</th>
                             <th>Recipe Name</th>
-                            <th>View</th>
+                            
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -78,14 +78,9 @@
 
                                 <td><?= $b['name']?></td>
 
-                                <td>
-                                    <a href="" target="_blank" class="btn btn-info btn-sm">
-                                        View
-                                    </a>
-                                </td>
 
                                 <td>
-                                    <a href="<?= base_url('admin/recipe/edit/' . $b['id']) ?>" class="btn btn-success btn-sm text-white">
+                                    <a href="<?= base_url('admin/recipe/edit/view/' . $b['id']) ?>" class="btn btn-success btn-sm text-white">
                                         Edit
                                     </a>
                                 </td>
@@ -108,7 +103,7 @@
                             <th>Recipe Date</th>
                             <th>Recipe Category</th>
                             <th>Recipe Name</th>
-                            <th>View</th>
+                            
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>

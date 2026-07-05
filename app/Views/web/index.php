@@ -10,7 +10,7 @@
         written for curious eaters who want the story behind the bite.
       </p>
       <div class="hero-actions">
-        <a class="button primary" href="#stories">Read Latest</a>
+        <a class="button primary" href="<?= base_url('blogs') ?>">Read More</a>
         <a class="button secondary" href="#newsletter">Subscribe</a>
       </div>
     </div>
@@ -21,14 +21,14 @@
     </aside>
   </section>
 
-  <section class="ticker" aria-label="Popular topics">
+  <!-- <section class="ticker" aria-label="Popular topics">
     <span>Kolkata biryani</span>
     <span>Lost recipes</span>
     <span>Street food</span>
     <span>Bengal sweets</span>
     <span>Travel plates</span>
     <span>Home kitchens</span>
-  </section>
+  </section> -->
 
   <section class="layout" id="stories">
     <div class="content-column">
@@ -43,14 +43,54 @@
           <input id="searchInput" type="search" placeholder="Search biryani, sweets, travel...">
         </label>
         <div class="filter-group" role="group" aria-label="Categories">
-          <button class="filter active" data-filter="all" type="button">All</button>
-          <button class="filter" data-filter="Food" type="button">Food</button>
-          <button class="filter" data-filter="Travel" type="button">Travel</button>
-          <button class="filter" data-filter="Recipe" type="button">Recipe</button>
+          <button class="filter active" data-filter="all">All</button>
+          <?php foreach ($categories as $category): ?>
+            <button class="filter" data-filter="<?= esc($category['name']) ?>"
+              type="button"><?= esc($category['name']) ?></button>
+          <?php endforeach; ?>
+
         </div>
       </div>
 
-      <div class="post-list" id="postList"></div>
+      <div class="post-list row ">
+        <?php foreach ($blogdata as $blog): ?>
+          <?php $date = $blog['date'] ?? '';
+          $timestamp = $date !== '' ? strtotime($date) : false;
+          $title = $blog['blog_name'] ?? 'Untitled blog';
+          $description = trim(strip_tags($blog['description'] ?? ''));
+          ?>
+          <div class="col-lg-4 col-md-6 col-sm-12">
+            <article class="post-card" data-category="<?= esc($blog['category']) ?>">
+              <div class="">
+                <img src="<?= base_url('public/assets/' . $blog['blog_image']) ?>" alt="food image">
+                <div class="post-body">
+                  <div class="post-meta">
+                    <span><?= $blog['category'] ?></span>
+                    <span><?= esc(date('M d, Y', $timestamp)) ?></span>
+
+                  </div>
+                  <h3>
+                    <?= esc(
+                      implode(' ', array_slice(explode(' ', $title), 0, 4)) .
+                      (str_word_count($title) > 4 ? '...' : '')
+                    ) ?>
+                  </h3>
+                  <p>
+                    <?= esc(
+                      implode(' ', array_slice(
+                        explode(' ', $description !== '' ? $description : 'A fresh food story from the Food Blog notebook.'),
+                        0,
+                        15
+                      )) . (str_word_count($description) > 15 ? '...' : '')
+                    ) ?>
+                  </p>
+                  <a class="read-link" href="<?= base_url('blogs/' . $blog['slug']) ?>">Read story</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        <?php endforeach; ?>
+      </div>
     </div>
 
     <aside class="sidebar" id="about">
@@ -67,12 +107,12 @@
       <section class="panel">
         <h2>Categories</h2>
         <div class="tag-cloud">
-          <button data-filter="Food" type="button">Food history</button>
-          <button data-filter="Travel" type="button">Food travel</button>
-          <button data-filter="Recipe" type="button">Recipes</button>
-          <button data-search="street" type="button">Street food</button>
-          <button data-search="sweet" type="button">Sweets</button>
-          <button data-search="breakfast" type="button">Breakfast</button>
+
+          <?php foreach ($categories as $category): ?>
+            <button class="filter" data-filter="<?= esc($category['name']) ?>"
+              type="button"><?= esc($category['name']) ?></button>
+          <?php endforeach; ?>
+
         </div>
       </section>
 
@@ -94,8 +134,75 @@
         The full method keeps the heat gentle and the masala honest.
       </p>
     </div>
-    <a class="button primary" href="#stories">Browse Recipes</a>
+    <a class="button primary" href="<?= base_url('recipes') ?>">Browse Recipes</a>
   </section>
+
+<style>
+  .post-card{
+    display: block;
+
+  }
+  ..post-card img{
+    min-height: 230px;
+    max-height: 230px;
+  }
+</style>
+
+  <script>
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+      const searchInput = document.getElementById("searchInput");
+      const posts = document.querySelectorAll(".post-card");
+      const filterButtons = document.querySelectorAll(".filter");
+
+      let activeFilter = "all";
+
+      // 🔍 SEARCH FUNCTION
+      searchInput.addEventListener("input", function () {
+        applyFilters();
+      });
+
+      // 🧩 FILTER BUTTON CLICK
+      filterButtons.forEach(button => {
+        button.addEventListener("click", function () {
+          activeFilter = this.dataset.filter.toLowerCase();
+
+          // active button style (optional)
+          filterButtons.forEach(btn => btn.classList.remove("active"));
+          this.classList.add("active");
+
+          applyFilters();
+        });
+      });
+
+      // 🚀 MAIN FILTER FUNCTION
+      function applyFilters() {
+        const searchText = searchInput.value.toLowerCase();
+
+        posts.forEach(post => {
+          const title = post.querySelector("h3").innerText.toLowerCase();
+          const desc = post.querySelector("p").innerText.toLowerCase();
+          const category = post.dataset.category.toLowerCase();
+
+          const matchesSearch =
+            title.includes(searchText) || desc.includes(searchText);
+
+          const matchesFilter =
+            activeFilter === "all" || category === activeFilter;
+
+          if (matchesSearch && matchesFilter) {
+            post.style.display = "";
+          } else {
+            post.style.display = "none";
+          }
+        });
+      }
+
+    });
+  </script>
+
 
 
 </main>

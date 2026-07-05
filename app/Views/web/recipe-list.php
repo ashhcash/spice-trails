@@ -13,7 +13,7 @@ $categories = $categories ?? [];
         <div>
             <p class="eyebrow">Food Notes</p>
             <h1 id="blog-list-title">Fresh stories from the kitchen, market, and road.</h1>
-            <p>Browse the latest blog posts by category, or search for a dish, place, ingredient, or memory.</p>
+            <p>Browse the latest recipes by category, or search for a dish, place, ingredient, or memory.</p>
         </div>
     </section>
 
@@ -25,7 +25,7 @@ $categories = $categories ?? [];
                     <?php if ($activeCategory !== ''): ?>
                         <input type="hidden" name="category" value="<?= esc($activeCategory) ?>">
                     <?php endif; ?>
-                    <label class="visually-hidden" for="blogSearch">Search blogs</label>
+                    <label class="visually-hidden" for="blogSearch">Search Recipes</label>
                     <input id="blogSearch" name="search" type="search" value="<?= esc($search) ?>"
                         placeholder="Search biryani, sweets, travel...">
                     <button class="button primary" type="submit">Search</button>
@@ -75,7 +75,7 @@ $categories = $categories ?? [];
                 </div>
             <?php endif; ?>
 
-            <div class="blog-card-grid">
+            <div class="blog-card-grid row g-2 pt-4">
                 <?php if (!empty($recipes)): ?>
                     <?php foreach ($recipes as $recipe): ?>
                         <?php
@@ -88,23 +88,38 @@ $categories = $categories ?? [];
                             ? base_url('public/assets/recipeuploads/' . basename($image))
                             : 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80';
                         ?>
-                        <article class="blog-card">
-                            <a class="blog-card-image" href="#newsletter" aria-label="Read <?= esc($title) ?>">
-                                <img src="<?= esc($imageUrl) ?>" alt="<?= esc($title) ?>">
-                            </a>
-                            <div class="blog-card-body">
-                                <div class="post-meta">
-                                    <?php if (!empty($recipe['category'])): ?>
-                                        <span><?= esc($recipe['category']) ?></span>
-                                    <?php endif; ?>
-                                    <?php if ($timestamp !== false): ?>
-                                        <span><?= esc(date('M d, Y', $timestamp)) ?></span>
-                                    <?php endif; ?>
+                        <article class="blog-card col-lg-3 col-md-4 col-sm-12">
+                            <div class="outline">
+                                <a class="blog-card-image" href="#newsletter" aria-label="Read <?= esc($title) ?>">
+                                    <img src="<?= esc($imageUrl) ?>" alt="<?= esc($title) ?>">
+                                </a>
+                                <div class="blog-card-body">
+                                    <div class="post-meta">
+                                        <?php if (!empty($recipe['category'])): ?>
+                                            <span><?= esc($recipe['category']) ?></span>
+                                        <?php endif; ?>
+                                        <?php if ($timestamp !== false): ?>
+                                            <span><?= esc(date('M d, Y', $timestamp)) ?></span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <h3>
+                                        <?= esc(
+                                            implode(' ', array_slice(explode(' ', $title), 0, 4)) .
+                                            (str_word_count($title) > 4 ? '...' : '')
+                                        ) ?>
+                                    </h3>
+                                    <p>
+                                        <?= esc(
+                                            implode(' ', array_slice(
+                                                explode(' ', $description !== '' ? $description : 'A fresh food story from the Food Blog notebook.'),
+                                                0,
+                                                15
+                                            )) . (str_word_count($description) > 15 ? '...' : '')
+                                        ) ?>
+                                    </p>
+                                    </p>
+                                    <a class="read-link" href="<?= base_url('recipes/' . $recipe['slug']) ?>">View Recipe</a>
                                 </div>
-                                <h3><?= esc($title) ?></h3>
-                                <p><?= esc($description !== '' ? $description : 'A fresh food story from the Spice Trails notebook.') ?>
-                                </p>
-                                <a class="read-link" href="<?= base_url('recipes/' . $recipe['slug']) ?>">Read story</a>
                             </div>
                         </article>
                     <?php endforeach; ?>
@@ -114,7 +129,6 @@ $categories = $categories ?? [];
             </div>
         </div>
     </section>
-
 
     <style>
         .blog-list-hero {
@@ -150,7 +164,13 @@ $categories = $categories ?? [];
             display: grid;
             grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
             gap: clamp(26px, 4vw, 52px);
-            padding: clamp(40px, 7vw, 76px) clamp(18px, 5vw, 76px);
+            padding: clamp(40px, 7vw, 35px) clamp(18px, 5vw, 35px);
+        }
+
+        .outline {
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #fff;
         }
 
         .blog-filter-sidebar {
@@ -230,12 +250,6 @@ $categories = $categories ?? [];
             border-color: var(--red);
         }
 
-        .blog-card-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 24px;
-            margin-top: 28px;
-        }
 
         .blog-card-grid .empty-state {
             grid-column: 1 / -1;
@@ -244,9 +258,8 @@ $categories = $categories ?? [];
         .blog-card {
             display: grid;
             overflow: hidden;
-            background: #fff;
-            border: 1px solid var(--line);
             border-radius: 8px;
+            margin-right: 0px;
             box-shadow: 0 14px 28px rgba(67, 42, 20, 0.08);
         }
 
@@ -271,7 +284,7 @@ $categories = $categories ?? [];
         .blog-card-body {
             display: flex;
             flex-direction: column;
-            min-height: 260px;
+            min-height: 200px;
             padding: 22px;
         }
 

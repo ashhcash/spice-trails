@@ -14803,6 +14803,16 @@ img::selection {
 .dz-media.height-xs img {
   height: 100%;
   object-fit: cover;
+
+}
+
+.dz-media::before {
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  content: "";
+}
+.dz-media img{
+  z-index: 2;
 }
 
 .height-lg {
@@ -36583,7 +36593,7 @@ ul.grid-2 li {
   position: relative;
   z-index: 1;
   overflow: hidden;
-  
+
   background-size: cover;
   background-position: bottom right;
 }
@@ -36632,7 +36642,7 @@ ul.grid-2 li {
 }
 
 .widget_contact:not(.widget_contact_light):after {
- 
+
   content: "";
   position: absolute;
   left: 0;
@@ -52885,8 +52895,3 @@ footer.site-footer.footer-dark .fb-inner {
   padding-bottom: 0;
   margin-bottom: 0;
 }
-
-
-
-
-

@@ -7,15 +7,29 @@ use App\Models\CategoryModel;
 use App\Models\RecipeCategoryModel;
 use App\Models\RecipeModel;
 
+
 class Home extends BaseController
 {
-    public function index(): string
+    public function index()
     {
-        return view('web/index');
+        $model = new BlogModel();
+        $data['blogdata'] = $model->orderBy('date', 'DESC')
+            ->findAll(4);
+
+        $categorymodel = new CategoryModel();
+
+        $data['categories'] = $categorymodel
+            ->orderBy('created_at', 'DESC')
+            ->findAll(3);
+
+        return view('web/index', $data);
     }
-    public function about(): string
+    public function about()
     {
-        return view('web/about');
+        $categoryModel = new CategoryModel();
+        $data['categories'] = $categoryModel->orderBy('created_at', 'DESC')
+            ->findAll(3);
+        return view('web/about' , $data);
     }
     public function registration(): string
     {
@@ -58,15 +72,15 @@ class Home extends BaseController
     {
         $model = new BlogModel();
 
-         $data['blogdata'] = $model->where('slug', $slug)->first();
+        $data['blogdata'] = $model->where('slug', $slug)->first();
 
-        return view('web/single-blog' , $data);
+        return view('web/single-blog', $data);
     }
 
 
     public function recipeList()
     {
-         $recipeModel = new RecipeModel();
+        $recipeModel = new RecipeModel();
         $categoryModel = new RecipeCategoryModel();
 
         $category = trim((string) $this->request->getGet('category'));
@@ -92,7 +106,7 @@ class Home extends BaseController
             'search' => $search,
         ];
 
-        return view('web/recipe-list' , $data);
+        return view('web/recipe-list', $data);
     }
 
 
@@ -100,10 +114,10 @@ class Home extends BaseController
     {
         $model = new RecipeModel();
 
-         $data['recipedata'] = $model->where('slug', $slug)->first();
+        $data['recipedata'] = $model->where('slug', $slug)->first();
 
-        return view('web/single-recipe' , $data);
+        return view('web/single-recipe', $data);
     }
-    
-    
-    }
+
+
+}

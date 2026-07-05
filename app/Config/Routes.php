@@ -27,12 +27,19 @@ $routes->group('admin', ['filter' => 'adminAuth'], function ($routes) {
     $routes->get('login', 'Admin::login');
     $routes->match(['get', 'post'], 'authenticate', 'Admin::authenticate');
     $routes->get('dashboard', 'Admin::dashboard');
+
+
+
+    // blog section
     $routes->get('blog', 'BlogController::blog');
-    $routes->get('editblog', 'BlogController::editblog');
-    $routes->post('updateblog', 'BlogController::updateBlog');
+    // $routes->get('editblog', 'BlogController::editblog');
+    // $routes->post('updateblog', 'BlogController::updateBlog');
     $routes->get('blog/create', 'BlogController::createBlog');
     $routes->post('blog/store', 'BlogController::storeBlog');
     $routes->get('logout', 'Admin::logout');
+    $routes->get('blog/edit/view/(:num)' , 'BlogController::editView/$1');
+    $routes->post('blog/edit/(:num)' , 'BlogController::blogEdit/$1');
+    $routes->get('blog/delete/(:num)' , 'BlogController::blogDelete/$1');
 
 
 
@@ -72,6 +79,12 @@ $routes->group('admin', ['filter' => 'adminAuth'], function ($routes) {
     $routes->get('recipe/create', 'Admin::createRecipe');
 
     $routes->post('recipe/store', 'Admin::storeRecipe');
+
+    $routes->post('recipe/edit/(:num)' , 'Admin::editRecipe/$1');
+
+    $routes->get('recipe/edit/view/(:num)' , 'Admin::viewEditRecipe/$1');
+
+    $routes->get('recipe/delete/(:num)' , 'Admin::deleteRecipe/$1');
 
 
 
