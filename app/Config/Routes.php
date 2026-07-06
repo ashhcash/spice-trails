@@ -98,6 +98,8 @@ $routes->group('admin', ['filter' => 'adminAuth'], function ($routes) {
 
    $routes->get('tags/delete/(:num)' , 'Admin::deleteTags/$1');
 
+   $routes->match(['get', 'post'], 'tags/updateTags/(:num)' , 'Admin::updateTags/$1');
+
 
 });
 

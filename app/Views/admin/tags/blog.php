@@ -7,7 +7,7 @@
 
 
     <div>
-       
+
 
         <div class="card">
             <div class="card-header">
@@ -75,8 +75,7 @@
 
                                 <!-- Delete -->
                                 <td>
-                                    <a href="<?= base_url('admin/tags/delete/' . $b['id']) ?>"
-                                        class="btn btn-danger btn-sm"
+                                    <a href="<?= base_url('admin/tags/delete/' . $b['id']) ?>" class="btn btn-danger btn-sm"
                                         onclick="return confirm('Are you sure you want to delete this tag?')">
                                         Delete
                                     </a>
@@ -150,64 +149,68 @@
 </main>
 
 <script>
-$(document).ready(function(){
+    $(document).ready(function () {
 
-    // Edit click
-    $('.editBtn').click(function(){
-        let row = $(this).closest('tr');
+        
+        $('.editBtn').click(function () {
+            let row = $(this).closest('tr');
 
-        row.find('.text-name').addClass('d-none');
-        row.find('.edit-input').removeClass('d-none').focus();
+            row.find('.text-name').addClass('d-none');
+            row.find('.edit-input').removeClass('d-none').focus();
 
-        row.find('.editBtn').addClass('d-none');
-        row.find('.updateBtn, .cancelBtn').removeClass('d-none');
-    });
-
-    // Cancel click
-    $('.cancelBtn').click(function(){
-        let row = $(this).closest('tr');
-
-        row.find('.edit-input').addClass('d-none');
-        row.find('.text-name').removeClass('d-none');
-
-        row.find('.updateBtn, .cancelBtn').addClass('d-none');
-        row.find('.editBtn').removeClass('d-none');
-    });
-
-    // Update click (AJAX)
-    $('.updateBtn').click(function(){
-        let row = $(this).closest('tr');
-        let id = $(this).data('id');
-        let newName = row.find('.edit-input').val();
-
-        if(newName.trim() === ''){
-            alert('Category name cannot be empty');
-            return;
-        }
-
-        $.ajax({
-            url: "<?= base_url('admin/tags/update') ?>",
-            type: "POST",
-            data: {
-                id: id,
-                name: newName
-            },
-            success: function(res){
-                row.find('.text-name').text(newName);
-
-                row.find('.edit-input').addClass('d-none');
-                row.find('.text-name').removeClass('d-none');
-
-                row.find('.updateBtn, .cancelBtn').addClass('d-none');
-                row.find('.editBtn').removeClass('d-none');
-            },
-            error: function(){
-                alert('Update failed');
-            }
+            row.find('.editBtn').addClass('d-none');
+            row.find('.updateBtn, .cancelBtn').removeClass('d-none');
         });
-    });
 
-});
+
+        $('.cancelBtn').click(function () {
+            let row = $(this).closest('tr');
+
+            row.find('.edit-input').addClass('d-none');
+            row.find('.text-name').removeClass('d-none');
+
+            row.find('.updateBtn, .cancelBtn').addClass('d-none');
+            row.find('.editBtn').removeClass('d-none');
+        });
+
+    
+        $('.updateBtn').click(function () {
+            let row = $(this).closest('tr');
+            let id = $(this).data('id');
+            let newName = row.find('.edit-input').val();
+
+            if (newName.trim() === '') {
+                alert('Tag name cannot be empty');
+                return;
+            }
+
+            $.ajax({
+                url: "<?= base_url('admin/tags/updateTags/') ?>" + id,
+                type: "POST",
+                data: {
+                    id: id,
+                    name: newName,
+                    '<?= csrf_token() ?>': '<?= csrf_hash() ?>'
+                },
+                success: function (res) {
+                    if (res.status === 'success') {
+
+                        row.find('.text-name').text(newName);
+
+                        row.find('.edit-input').addClass('d-none');
+                        row.find('.text-name').removeClass('d-none');
+
+                        row.find('.updateBtn, .cancelBtn').addClass('d-none');
+                        row.find('.editBtn').removeClass('d-none');
+
+                    } else {
+                        alert(res.message || 'Update failed');
+                    }
+                }
+            });
+        });
+
+    });
 </script>
 
 <?= $this->endSection() ?>

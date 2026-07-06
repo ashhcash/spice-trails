@@ -73,11 +73,13 @@ class Admin extends BaseController
     public function categoryStore()
     {
         $model = new CategoryModel();
+        $blogsModel = new BlogModel();
 
         $data = [
 
             'name' => $this->request->getPost('name')
         ];
+
 
         if ($model->insert($data)) {
             return redirect()->back()->with('done', 'Category created successfully');
@@ -91,11 +93,30 @@ class Admin extends BaseController
     public function categoryUpdate()
     {
         $id = $this->request->getPost('id');
-        $name = $this->request->getPost('name');
+        $newName = trim($this->request->getPost('name'));
 
-        $model = new CategoryModel();
+        $categoryModel = new CategoryModel();
+        $blogsModel = new BlogModel();
 
-        if ($model->update($id, ['name' => $name])) {
+
+        $category = $categoryModel->find($id);
+
+        if (!$category) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Category not found']);
+        }
+
+        $oldName = $category['name'];
+
+
+        $categoryUpdated = $categoryModel->update($id, ['name' => $newName]);
+
+
+        $blogsUpdated = $blogsModel
+            ->where('category', $oldName)
+            ->set(['category' => $newName])
+            ->update();
+
+        if ($categoryUpdated && $blogsUpdated !== false) {
             return $this->response->setJSON(['status' => 'success']);
         } else {
             return $this->response->setJSON(['status' => 'error']);
@@ -322,14 +343,6 @@ class Admin extends BaseController
         return redirect()->back()->with('delete', 'Recipe Deleted Successfully');
     }
 
-    public function deleteTags($id)
-    {
-        $model = new TagsModel();
-
-        $model->delete($id);
-
-        return redirect()->back()->with('deleted', 'Tag Deleted Successfully');
-    }
 
 
 
@@ -369,6 +382,63 @@ class Admin extends BaseController
         }
     }
 
+    public function updateTags()
+    {
+        $id = $this->request->getPost('id');
+        $newName = trim($this->request->getPost('name'));
+
+        $tagsModel = new TagsModel();
+        $blogsModel = new BlogModel();
+
+     
+        $tag = $tagsModel->find($id);
+
+        if (!$tag) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Tag not found'
+            ]);
+        }
+
+        $oldName = $tag['name'];
+
+        $tagUpdated = $tagsModel->update($id, ['name' => $newName]);
+
+        $blogs = $blogsModel
+            ->where("JSON_SEARCH(tags, 'one', '{$oldName}') IS NOT NULL")
+            ->findAll();
+
+        foreach ($blogs as $blog) {
+
+            $tagsArray = json_decode($blog['tags'], true);
+
+            if (!is_array($tagsArray))
+                continue;
+
+            $updatedTags = [];
+
+            foreach ($tagsArray as $t) {
+                $updatedTags[] = ($t === $oldName) ? $newName : $t;
+            }
+
+            $blogsModel->update($blog['id'], [
+                'tags' => json_encode($updatedTags)
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'status' => $tagUpdated ? 'success' : 'error'
+        ]);
+    }
 
 
+
+    public function deleteTags($id)
+    {
+        $model = new TagsModel();
+
+        $model->delete($id);
+
+        return redirect()->back()->with('deleted', 'Tag Deleted Successfully');
+    }
 }
