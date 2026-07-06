@@ -90,7 +90,13 @@ $routes->group('admin', ['filter' => 'adminAuth'], function ($routes) {
 
 
 
-    // 
+    // tags section -------------------------------------------------------------------
+
+    $routes->get('tags/blog', 'Admin::blogTags');
+
+   $routes->post('tags/store' , 'Admin::storeTags');
+
+   $routes->get('tags/delete/(:num)' , 'Admin::deleteTags/$1');
 
 
 });

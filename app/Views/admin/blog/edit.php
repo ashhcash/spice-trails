@@ -6,23 +6,23 @@
 
     <!-- ✅ Flash Messages -->
 
-     <?php if (session()->getFlashdata('error')): ?>
-                <div class="alert alert-danger alert-dismissible m-2">
-                    <?= session()->getFlashdata('error') ?>
+    <?php if (session()->getFlashdata('error')): ?>
+        <div class="alert alert-danger alert-dismissible m-2">
+            <?= session()->getFlashdata('error') ?>
 
-                    <button type="button" class="close text-darks" data-dismiss="alert"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            <?php endif; ?>
+            <button type="button" class="close text-darks" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php endif; ?>
 
 
     <h2 class="mb-4">Edit Your Blog</h2>
 
 
 
-    <form method="POST" action="<?= base_url('admin/blog/edit/' . $blogs['id']) ?>" enctype="multipart/form-data" autocomplete="off">
+    <form method="POST" action="<?= base_url('admin/blog/edit/' . $blogs['id']) ?>" enctype="multipart/form-data"
+        autocomplete="off">
 
         <!-- SEO Section -->
         <div class="card mb-4">
@@ -36,14 +36,26 @@
                 </div>
 
                 <div class="form-group mb-3">
-                    <label><strong>Description</strong></label>
-                    <input class="form-control" name="description" rows="3" maxlength="255" value="<?= $blogs['description'] ?>"
-                        placeholder="less than 255 characters"></input>
+                    <label><strong>Meta Title</strong></label>
+                    <input type="text" class="form-control" name="meta_title" value="<?= $blogs['meta_title'] ?>"
+                        maxlength="255" placeholder="Enter your title">
                 </div>
 
-                 <div class="form-group mb-3">
+                <div class="form-group mb-3">
+                    <label><strong>Description</strong></label>
+                    <input class="form-control" name="description" rows="3" maxlength="255"
+                        value="<?= $blogs['description'] ?>" placeholder="less than 255 characters"></input>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label><strong>Meta Description</strong></label>
+                    <input class="form-control" name="meta_description" rows="3" maxlength="255"
+                        value="<?= $blogs['meta_description'] ?>" placeholder="less than 255 characters"></input>
+                </div>
+
+                <div class="form-group mb-3">
                     <label><strong>Slug</strong></label>
-                    <input class="form-control" name="slug"  maxlength="255" value="<?= $blogs['slug'] ?>"
+                    <input class="form-control" name="slug" maxlength="255" value="<?= $blogs['slug'] ?>"
                         placeholder="less than 255 characters"></input>
                 </div>
 
@@ -53,27 +65,92 @@
         <!-- Blog Image Upload -->
         <div class="form-group mb-3">
             <label for="blog_image"><strong>Blog Image</strong></label>
-            <input type="file" class="form-control-file" name="blog_image" id="blog_image" value = "<?= $blogs['blog_image'] ?>" accept="image/*" required>
+            <input type="file" class="form-control-file" name="blog_image" id="blog_image"
+                value="<?= $blogs['blog_image'] ?>" accept="image/*" required>
         </div>
 
         <!-- Blog Date -->
         <div class="form-group mb-3">
             <label><strong>Publish Date</strong></label>
-            <input type="date" class="form-control" name="date" value="<?= $blogs['date']?>" required>
+            <input type="date" class="form-control" name="date" value="<?= $blogs['date'] ?>" required>
         </div>
 
         <!-- Blog Category -->
         <div class="form-group mb-3">
             <label for="category"><strong>Blog Category</strong></label>
             <select name="category" id="category" class="form-control">
-                
+
                 <?php foreach ($category as $c): ?>
 
-                    
-                <option value="<?= $c['name'] ?>"><?= $c['name'] ?></option>
+
+                    <option value="<?= $c['name'] ?>"><?= $c['name'] ?></option>
 
                 <?php endforeach ?>
             </select>
+        </div>
+
+
+
+        <style>
+            .tag-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .tag-item {
+                position: relative;
+            }
+
+            .tag-item input[type="checkbox"] {
+                display: none;
+            }
+
+            .tag-item label {
+                padding: 6px 12px;
+                border: 1px solid #ccc;
+                border-radius: 20px;
+                cursor: pointer;
+                transition: 0.3s;
+                background: #f8f9fa;
+                font-size: 14px;
+            }
+
+            .tag-item input[type="checkbox"]:checked+label {
+                background: #007bff;
+                color: #fff;
+                border-color: #007bff;
+            }
+        </style>
+
+
+
+
+        <!--       Blog Tags------>
+
+        <?php
+        $selectedTags = json_decode($blogs['tags'], true);
+
+        // Safety check
+        if (!is_array($selectedTags)) {
+            $selectedTags = [];
+        }
+        ?>
+
+        <div class="form-group mb-3">
+            <label><strong>Blog Tags</strong></label>
+
+            <div class="tag-container">
+                <?php foreach ($tags as $tag): ?>
+                    <div class="tag-item">
+                        <input type="checkbox" id="tag_<?= $tag['id'] ?>" name="tags[]" value="<?= $tag['name'] ?>"
+                            <?= in_array($tag['name'], $selectedTags) ? 'checked' : '' ?>>
+                        <label for="tag_<?= $tag['id'] ?>">
+                            <?= $tag['name'] ?>
+                        </label>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
 
 
@@ -95,7 +172,7 @@
         <!-- Hidden description field for submission -->
         <textarea name="text" id="finalContent" value="<?= $blogs['text'] ?>" hidden></textarea>
 
-        <button type="submit" class="btn btn-primary mt-3" data-id="<?= $blogs['id'] ?? 0 ?>" >💾 Save Blog</button>
+        <button type="submit" class="btn btn-primary mt-3" data-id="<?= $blogs['id'] ?? 0 ?>">💾 Save Blog</button>
     </form>
 
 </main>

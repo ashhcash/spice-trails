@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\CategoryModel;
 use App\Models\BlogModel;
+use App\Models\TagsModel;
 
 class BlogController extends BaseController
 {
@@ -34,10 +35,14 @@ class BlogController extends BaseController
     {
         $model = new CategoryModel();
 
+        $tagsModel = new TagsModel();
+
         $data['category'] = $model->findAll();
 
-      
-        return view('admin/blog/create' , $data);
+        $data['tags'] = $tagsModel->findAll();
+
+
+        return view('admin/blog/create', $data);
     }
 
     public function storeBlog()
@@ -45,7 +50,7 @@ class BlogController extends BaseController
         helper(['form', 'url', 'text']);
 
 
-        
+
         $rules = [
             'blog_name' => 'required|min_length[3]',
             'category' => 'required',
@@ -55,17 +60,17 @@ class BlogController extends BaseController
         ];
 
 
-         if (!$this->validate($rules)) {
+        if (!$this->validate($rules)) {
             return redirect()->back()
                 ->withInput()
                 ->with('error', 'Something went wrong');
         }
 
 
-          $image = $this->request->getFile('blog_image');
+        $image = $this->request->getFile('blog_image');
 
 
-         if ($image->isValid() && !$image->hasMoved()) {
+        if ($image->isValid() && !$image->hasMoved()) {
             $newName = $image->getRandomName();
 
             $image->move(ROOTPATH . 'public/assets/uploads', $newName);
@@ -76,9 +81,14 @@ class BlogController extends BaseController
             $imagePath = null;
         }
 
+        $tags = $this->request->getPost('tags'); 
 
-            $data = [
-            
+ 
+        $tagsJson = json_encode($tags);
+
+
+        $data = [
+
             'category' => $this->request->getPost('category'),
             'description' => $this->request->getPost('description'),
             'blog_name' => $this->request->getPost('blog_name'),
@@ -86,19 +96,20 @@ class BlogController extends BaseController
             'blog_image' => $imagePath,
             'date' => $this->request->getPost('date'),
             'slug' => url_title($this->request->getPost('slug'), '-', true),
+            'tags' => $tagsJson,
         ];
 
 
-        
+
         $model = new BlogModel();
 
 
-          if($model->insert($data)){
+        if ($model->insert($data)) {
             return redirect()->to('/admin/blog')->with('success', 'Blog created successfully');
         } else {
             return redirect()->back()->withInput()->with('error', 'Failed to create blog');
         }
-        
+
 
     }
 
@@ -113,7 +124,13 @@ class BlogController extends BaseController
 
         $data['category'] = $categoryModel->findAll();
 
-        return view('admin/blog/edit' , $data);
+        $tagsModel = new TagsModel();
+
+        $data['tags'] = $tagsModel->findAll();
+
+   
+
+        return view('admin/blog/edit', $data);
     }
 
     public function blogEdit($id)
@@ -122,10 +139,10 @@ class BlogController extends BaseController
 
 
 
-         helper(['form', 'url', 'text']);
+        helper(['form', 'url', 'text']);
 
 
-        
+
         $rules = [
             'blog_name' => 'required|min_length[3]',
             'category' => 'required',
@@ -135,17 +152,17 @@ class BlogController extends BaseController
         ];
 
 
-         if (!$this->validate($rules)) {
+        if (!$this->validate($rules)) {
             return redirect()->back()
                 ->withInput()
                 ->with('error', 'Something went wrong');
         }
 
 
-          $image = $this->request->getFile('blog_image');
+        $image = $this->request->getFile('blog_image');
 
 
-         if ($image->isValid() && !$image->hasMoved()) {
+        if ($image->isValid() && !$image->hasMoved()) {
             $newName = $image->getRandomName();
 
             $image->move(ROOTPATH . 'public/assets/uploads', $newName);
@@ -157,8 +174,9 @@ class BlogController extends BaseController
         }
 
         $data = [
-             'category' => $this->request->getPost('category'),
+            'category' => $this->request->getPost('category'),
             'description' => $this->request->getPost('description'),
+            'meta_title' => $this->request->getPost('meta_title'),
             'blog_name' => $this->request->getPost('blog_name'),
             'text' => $this->request->getPost('text'),
             'blog_image' => $imagePath,
@@ -166,24 +184,22 @@ class BlogController extends BaseController
             'slug' => url_title($this->request->getPost('slug'), '-', true),
         ];
 
-        if($model->update($id, $data))
-            {
-                return redirect()->to('admin/blog')->with('success' , 'Blog Edited Sucessfully');
+        if ($model->update($id, $data)) {
+            return redirect()->to('admin/blog')->with('success', 'Blog Edited Sucessfully');
 
-            } else 
-            {
-                return redirect()->to('admin/blog')->with('error' , 'Something went wrong');
-            }
+        } else {
+            return redirect()->to('admin/blog')->with('error', 'Something went wrong');
+        }
 
-        
+
     }
 
     public function blogDelete($id)
     {
         $model = new BlogModel();
-        
+
         $model->delete($id);
 
-        return redirect()->back()->with('delete' , 'Blog Deleted Successfully');
+        return redirect()->back()->with('delete', 'Blog Deleted Successfully');
     }
 }

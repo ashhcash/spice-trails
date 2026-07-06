@@ -6,16 +6,15 @@
 
     <!-- ✅ Flash Messages -->
 
-     <?php if (session()->getFlashdata('error')): ?>
-                <div class="alert alert-danger alert-dismissible m-2">
-                    <?= session()->getFlashdata('error') ?>
+    <?php if (session()->getFlashdata('error')): ?>
+        <div class="alert alert-danger alert-dismissible m-2">
+            <?= session()->getFlashdata('error') ?>
 
-                    <button type="button" class="close text-darks" data-dismiss="alert"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            <?php endif; ?>
+            <button type="button" class="close text-darks" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php endif; ?>
 
 
     <h2 class="mb-4">Add New Blog</h2>
@@ -36,14 +35,26 @@
                 </div>
 
                 <div class="form-group mb-3">
-                    <label><strong>Description</strong></label>
-                    <input class="form-control" name="description" rows="3" maxlength="255" value="<?= old('description') ?>"
-                        placeholder="less than 255 characters"></input>
+                    <label><strong>Meta Title</strong></label>
+                    <input type="text" class="form-control" name="meta_title" value="<?= old('meta_title') ?>"
+                        maxlength="255" placeholder="Enter your meta title">
                 </div>
 
-                 <div class="form-group mb-3">
+                <div class="form-group mb-3">
+                    <label><strong>Description</strong></label>
+                    <input class="form-control" name="description" rows="3" maxlength="255"
+                        value="<?= old('description') ?>" placeholder="less than 255 characters"></input>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label><strong>Meta Description</strong></label>
+                    <input class="form-control" name="meta_description" rows="3" maxlength="255"
+                        value="<?= old('meta_description') ?>" placeholder="less than 255 characters"></input>
+                </div>
+
+                <div class="form-group mb-3">
                     <label><strong>Slug</strong></label>
-                    <input class="form-control" name="slug"  maxlength="255" value="<?= old('slug') ?>"
+                    <input class="form-control" name="slug" maxlength="255" value="<?= old('slug') ?>"
                         placeholder="less than 255 characters"></input>
                 </div>
 
@@ -66,16 +77,67 @@
         <div class="form-group mb-3">
             <label for="category"><strong>Blog Category</strong></label>
             <select name="category" id="category" class="form-control">
-                
+
                 <?php foreach ($category as $c): ?>
 
-                    
-                <option value="<?= $c['name'] ?>"><?= $c['name'] ?></option>
+
+                    <option value="<?= $c['name'] ?>"><?= $c['name'] ?></option>
 
                 <?php endforeach ?>
             </select>
         </div>
 
+        <style>
+            .tag-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .tag-item {
+                position: relative;
+            }
+
+            .tag-item input[type="checkbox"] {
+                display: none;
+            }
+
+            .tag-item label {
+                padding: 6px 12px;
+                border: 1px solid #ccc;
+                border-radius: 20px;
+                cursor: pointer;
+                transition: 0.3s;
+                background: #f8f9fa;
+                font-size: 14px;
+            }
+
+            .tag-item input[type="checkbox"]:checked+label {
+                background: #007bff;
+                color: #fff;
+                border-color: #007bff;
+            }
+        </style>
+
+
+
+
+<!--       Blog Tags------> 
+
+        <div class="form-group mb-3">
+            <label><strong>Blog Tags</strong></label>
+
+            <div class="tag-container">
+                <?php foreach ($tags as $tag): ?>
+                    <div class="tag-item">
+                        <input type="checkbox" id="tag_<?= $tag['id'] ?>" name="tags[]" value="<?= $tag['name'] ?>">
+                        <label for="tag_<?= $tag['id'] ?>">
+                            <?= $tag['name'] ?>
+                        </label>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
 
         <!-- Toggle Editor -->
         <div class="form-group mb-2">
@@ -95,7 +157,7 @@
         <!-- Hidden description field for submission -->
         <textarea name="text" id="finalContent" value="<?= old('text') ?>" hidden></textarea>
 
-        <button type="submit" class="btn btn-primary mt-3" >💾 Save Blog</button>
+        <button type="submit" class="btn btn-primary mt-3">💾 Save Blog</button>
     </form>
 
 </main>

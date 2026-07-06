@@ -8,6 +8,13 @@ $blogs = $blogs ?? [];
 $categories = $categories ?? [];
 ?>
 
+<?php
+$activeTags = $activeTags ?? '';
+$search = $search ?? '';
+$blogs = $blogs ?? [];
+$tags = $tags ?? [];
+?>
+
 <main id="top">
     <section class="blog-list-hero" aria-labelledby="blog-list-title">
         <div>
@@ -49,6 +56,36 @@ $categories = $categories ?? [];
                     <?php endforeach; ?>
                 </div>
             </section>
+
+
+
+ <section class="panel">
+    <p class="eyebrow">Tags</p>
+
+    <form method="get" action="<?= base_url('blogs') ?>">
+
+        <?php if ($search !== ''): ?>
+            <input type="hidden" name="search" value="<?= esc($search) ?>">
+        <?php endif; ?>
+
+        <div class="blog-category-list">
+            <?php foreach ($tags as $tag): ?>
+                <?php $tagName = $tag['name'] ?? ''; ?>
+                <label>
+                    <input 
+                        type="checkbox" 
+                        name="tags[]" 
+                        value="<?= esc($tagName) ?>"
+                        <?= (!empty($activeTags) && in_array($tagName, $activeTags)) ? 'checked' : '' ?>
+                    >
+                    <?= esc($tagName) ?>
+                </label>
+            <?php endforeach; ?>
+        </div>
+
+        <button type="submit" class="button primary mt-2">Apply</button>
+    </form>
+</section>
 
             <section class="panel highlight">
                 <p class="eyebrow">Notebook</p>

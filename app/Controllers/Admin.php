@@ -6,6 +6,7 @@ use App\Models\CategoryModel;
 use App\Models\BlogModel;
 use App\Models\RecipeCategoryModel;
 use App\Models\RecipeModel;
+use App\Models\TagsModel;
 
 class Admin extends BaseController
 {
@@ -309,7 +310,7 @@ class Admin extends BaseController
         $data['recipe'] = $model->find($id);
 
         $data['recipecategories'] = $CategoryModel->findAll();
-        return view('admin/recipe/edit' , $data);
+        return view('admin/recipe/edit', $data);
     }
 
     public function deleteRecipe($id)
@@ -318,8 +319,56 @@ class Admin extends BaseController
 
         $model->delete($id);
 
-        return redirect()->back()->with('delete' , 'Recipe Deleted Successfully');
+        return redirect()->back()->with('delete', 'Recipe Deleted Successfully');
     }
+
+    public function deleteTags($id)
+    {
+        $model = new TagsModel();
+
+        $model->delete($id);
+
+        return redirect()->back()->with('deleted', 'Tag Deleted Successfully');
+    }
+
+
+
+
+
+
+
+
+
+
+
+    // tags section
+
+    public function blogTags()
+    {
+
+        $model = new TagsModel();
+
+        $data['tags'] = $model->findAll();
+
+        return view('admin/tags/blog', $data);
+
+    }
+
+    public function storeTags()
+    {
+        $model = new TagsModel();
+
+        $data = [
+            'name' => $this->request->getPost('name')
+        ];
+
+        if ($model->insert($data)) {
+            return redirect()->back()->with('success', 'Tag created successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Failed to create tag');
+        }
+    }
+
 
 
 }

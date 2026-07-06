@@ -4,26 +4,16 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class BlogModel extends Model
+class TagsModel extends Model
 {
-    protected $table            = 'blogs';
+    protected $table            = 'tags';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'blog_name',
-        'meta_title',
-        'blog_image',
-        'description',
-        'meta_description',
-        'category',
-        'text',
-        'tags',
-        'date',
-        'slug'
-        
+        'name'
     ];
 
     protected bool $allowEmptyInserts = false;

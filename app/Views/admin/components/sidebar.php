@@ -162,7 +162,7 @@
         category menu -->
 
 
-   <?php $categoryActive = (
+                <?php $categoryActive = (
                     uri_string() == 'admin/category' ||
                     uri_string() == 'admin/category/blog' ||
                     strpos(uri_string(), 'admin/category/recipe') !== false
@@ -213,6 +213,45 @@
 
                 </li>
 
+<?php $tagsActive = (
+                    uri_string() == 'admin/tags' ||
+                    uri_string() == 'admin/tags/blog' ||
+                    strpos(uri_string(), 'admin/tags/recipe') !== false
+                );
+                ?>
+
+                <li class="nav-item <?= $tagsActive ? 'menu-open' : '' ?>">
+
+                    <a href="#" class="nav-link <?= $tagsActive ? 'active' : '' ?>">
+
+                        <i class="nav-icon fas fa-list"></i>
+
+                        <p>
+                            Tags Management
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+
+                    </a>
+
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+
+                            <a href="<?= base_url('admin/tags/blog') ?>"
+                                class="nav-link <?= (uri_string() == 'admin/tags/blog') ? 'active' : '' ?>">
+
+                                <i class="far fa-list-alt nav-icon"></i>
+                                <p>Blog Tags</p>
+
+                            </a>
+
+                        </li>
+
+                       
+
+                    </ul>
+
+                </li>
 
                 <!-- Messages -->
                 <!-- <li class="nav-item">

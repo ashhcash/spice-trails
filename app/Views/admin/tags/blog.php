@@ -11,7 +11,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Category List</h3>
+                <h3 class="card-title">Tags List</h3>
             </div>
             <?php if (session()->getFlashdata('success')): ?>
                 <div class="alert alert-success alert-dismissible m-2">
@@ -46,14 +46,14 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Category Name</th>
+                            <th>Tag Name</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <?php foreach ($categories as $index => $b): ?>
+                        <?php foreach ($tags as $index => $b): ?>
                             <tr>
 
                                 <td><?= $index + 1 ?></td>
@@ -75,9 +75,9 @@
 
                                 <!-- Delete -->
                                 <td>
-                                    <a href="<?= base_url('admin/category/delete/' . $b['id']) ?>"
+                                    <a href="<?= base_url('admin/tags/delete/' . $b['id']) ?>"
                                         class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Are you sure you want to delete this category?')">
+                                        onclick="return confirm('Are you sure you want to delete this tag?')">
                                         Delete
                                     </a>
                                 </td>
@@ -89,7 +89,7 @@
                     <tfoot>
                         <tr>
                             <th>ID</th>
-                            <th>Category Name</th>
+                            <th>Tag Name</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -107,7 +107,7 @@
 
 
 
-    <form method="POST" action="<?= base_url('admin/category/store') ?>" class="upload-form z-3 shadow p-5"
+    <form method="POST" action="<?= base_url('admin/tags/store') ?>" class="upload-form z-3 shadow p-5"
         enctype="multipart/form-data">
 
 
@@ -131,11 +131,11 @@
             </div>
         <?php endif; ?>
 
-        <h4>Upload Categories</h4>
+        <h4>Upload Tags</h4>
 
 
         <div class="mb-3 form-group">
-            <label for="floatingInput" class="form-label">Category Name</label>
+            <label for="floatingInput" class="form-label">Tag Name</label>
             <input type="text" name="name" class="form-control" id="floatingInput" value="" required>
 
         </div>
@@ -186,7 +186,7 @@ $(document).ready(function(){
         }
 
         $.ajax({
-            url: "<?= base_url('admin/category/update') ?>",
+            url: "<?= base_url('admin/tags/update') ?>",
             type: "POST",
             data: {
                 id: id,

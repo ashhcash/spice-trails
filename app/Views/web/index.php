@@ -159,17 +159,17 @@
 
       let activeFilter = "all";
 
-      // 🔍 SEARCH FUNCTION
+
       searchInput.addEventListener("input", function () {
         applyFilters();
       });
 
-      // 🧩 FILTER BUTTON CLICK
+    
       filterButtons.forEach(button => {
         button.addEventListener("click", function () {
           activeFilter = this.dataset.filter.toLowerCase();
 
-          // active button style (optional)
+        
           filterButtons.forEach(btn => btn.classList.remove("active"));
           this.classList.add("active");
 
@@ -177,7 +177,7 @@
         });
       });
 
-      // 🚀 MAIN FILTER FUNCTION
+     
       function applyFilters() {
         const searchText = searchInput.value.toLowerCase();
 
