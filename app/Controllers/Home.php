@@ -86,7 +86,10 @@ class Home extends BaseController
         }
 
         $data = [
-            'blogs' => $blogModel->orderBy('date', 'DESC')->findAll(),
+            'blogs' => $blogModel->orderBy('date', 'DESC')->paginate(12),
+            'pager' => $blogModel->pager,
+
+
             'categories' => $categoryModel->orderBy('name', 'ASC')->findAll(),
             'tags' => $tagsModel->orderBy('name', 'ASC')->findAll(),
             'activeCategory' => $category,

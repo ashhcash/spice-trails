@@ -81,9 +81,9 @@ class BlogController extends BaseController
             $imagePath = null;
         }
 
-        $tags = $this->request->getPost('tags'); 
+        $tags = $this->request->getPost('tags');
 
- 
+
         $tagsJson = json_encode($tags);
 
 
@@ -97,6 +97,7 @@ class BlogController extends BaseController
             'date' => $this->request->getPost('date'),
             'slug' => url_title($this->request->getPost('slug'), '-', true),
             'tags' => $tagsJson,
+            'src' => $this->request->getPost('src')
         ];
 
 
@@ -128,7 +129,7 @@ class BlogController extends BaseController
 
         $data['tags'] = $tagsModel->findAll();
 
-   
+
 
         return view('admin/blog/edit', $data);
     }
@@ -136,12 +137,9 @@ class BlogController extends BaseController
     public function blogEdit($id)
     {
         $model = new BlogModel();
-
-
-
         helper(['form', 'url', 'text']);
 
-
+        $blog = $model->find($id);
 
         $rules = [
             'blog_name' => 'required|min_length[3]',
@@ -151,55 +149,71 @@ class BlogController extends BaseController
             'blog_image' => 'uploaded[blog_image]|is_image[blog_image]|max_size[blog_image,2048]'
         ];
 
-
         if (!$this->validate($rules)) {
             return redirect()->back()
                 ->withInput()
                 ->with('error', 'Something went wrong');
         }
 
-
-        $image = $this->request->getFile('blog_image');
-
-
-        if ($image->isValid() && !$image->hasMoved()) {
-            $newName = $image->getRandomName();
-
-            $image->move(ROOTPATH . 'public/assets/uploads', $newName);
-
-            $imagePath = 'uploads/' . $newName;
-
-        } else {
-            $imagePath = null;
-        }
-
         $data = [
             'category' => $this->request->getPost('category'),
             'description' => $this->request->getPost('description'),
+            'meta_description' => $this->request->getPost('meta_description'),
             'meta_title' => $this->request->getPost('meta_title'),
             'blog_name' => $this->request->getPost('blog_name'),
             'text' => $this->request->getPost('text'),
-            'blog_image' => $imagePath,
             'date' => $this->request->getPost('date'),
             'slug' => url_title($this->request->getPost('slug'), '-', true),
+            'src' => $this->request->getPost('src'),
         ];
 
-        if ($model->update($id, $data)) {
-            return redirect()->to('admin/blog')->with('success', 'Blog Edited Sucessfully');
+        $image = $this->request->getFile('blog_image');
 
+        if ($image && $image->isValid() && !$image->hasMoved()) {
+
+
+            if (!empty($blog['blog_image'])) {
+                $oldPath = ROOTPATH . 'public/assets/uploads/' . $blog['blog_image'];
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
+            }
+
+
+            $newName = $image->getRandomName();
+            $image->move(ROOTPATH . 'public/assets/uploads', $newName);
+
+            $data['blog_image'] = 'uploads/' . $newName;
+        }
+
+        if ($model->update($id, $data)) {
+            return redirect()->to('admin/blog')->with('success', 'Blog Edited Successfully');
         } else {
             return redirect()->to('admin/blog')->with('error', 'Something went wrong');
         }
-
-
     }
 
     public function blogDelete($id)
     {
         $model = new BlogModel();
 
-        $model->delete($id);
+        $product = $model->find($id);
 
+
+
+        if ($product) {
+
+            //Delete main image
+            if (!empty($product['blog_image'])) {
+                $mainPath = ROOTPATH . 'public/assets/uploads' . $product['blog_image'];
+
+                if (is_file($mainPath)) {
+                    unlink($mainPath);
+                    log_message('info', 'Main image deleted: ' . $mainPath);
+                }
+            }
+        }
+        $model->delete($id);
         return redirect()->back()->with('delete', 'Blog Deleted Successfully');
     }
 }

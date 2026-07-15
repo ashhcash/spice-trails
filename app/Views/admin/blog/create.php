@@ -58,6 +58,12 @@
                         placeholder="less than 255 characters"></input>
                 </div>
 
+                <div class="form-group mb-3">
+                    <label><strong>Location</strong></label>
+                    <input class="form-control" name="src" rows="3" maxlength="500"
+                        value="<?= old('src') ?>" placeholder="less than 500 characters"></input>
+                </div>
+
             </div>
         </div>
 

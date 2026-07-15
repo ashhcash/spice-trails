@@ -59,33 +59,28 @@ $tags = $tags ?? [];
 
 
 
- <section class="panel">
-    <p class="eyebrow">Tags</p>
+            <section class="panel">
+                <p class="eyebrow">Tags</p>
 
-    <form method="get" action="<?= base_url('blogs') ?>">
+                <form method="get" action="<?= base_url('blogs') ?>">
 
-        <?php if ($search !== ''): ?>
-            <input type="hidden" name="search" value="<?= esc($search) ?>">
-        <?php endif; ?>
+                    <?php if ($search !== ''): ?>
+                        <input type="hidden" name="search" value="<?= esc($search) ?>">
+                    <?php endif; ?>
 
-        <div class="blog-category-list">
-            <?php foreach ($tags as $tag): ?>
-                <?php $tagName = $tag['name'] ?? ''; ?>
-                <label>
-                    <input 
-                        type="checkbox" 
-                        name="tags[]" 
-                        value="<?= esc($tagName) ?>"
-                        <?= (!empty($activeTags) && in_array($tagName, $activeTags)) ? 'checked' : '' ?>
-                    >
-                    <?= esc($tagName) ?>
-                </label>
-            <?php endforeach; ?>
-        </div>
+                    <div class="blog-category-list">
+                        <?php foreach ($tags as $tag): ?>
+                            <?php $tagName = $tag['name'] ?? ''; ?>
+                            <label>
+                                <input type="checkbox" name="tags[]" value="<?= esc($tagName) ?>" <?= (!empty($activeTags) && in_array($tagName, $activeTags)) ? 'checked' : '' ?>>
+                                <?= esc($tagName) ?>
+                            </label>
+                        <?php endforeach; ?>
+                    </div>
 
-        <button type="submit" class="button primary mt-2">Apply</button>
-    </form>
-</section>
+                    <button type="submit" class="button primary mt-2">Apply</button>
+                </form>
+            </section>
 
             <section class="panel highlight">
                 <p class="eyebrow">Notebook</p>
@@ -158,12 +153,26 @@ $tags = $tags ?? [];
                                 </div>
                             </div>
                         </article>
+
+
+
+
                     <?php endforeach; ?>
                 <?php else: ?>
                     <p class="empty-state">No blogs found for this filter. Try another category or search term.</p>
                 <?php endif; ?>
+               
             </div>
+
+
+            <?php if ($pager): ?>
+    <div class="pagination-wrapper mt-4">
+        <?= $pager->links() ?>
+    </div>
+<?php endif; ?>
+
         </div>
+        <a href="#top" class="topbtn text-white" id="topBtn"><i class="fa-solid fa-arrow-up"></i></a>
     </section>
 
 
@@ -339,6 +348,36 @@ $tags = $tags ?? [];
         }
 
 
+        .topbtn {
+            position: fixed;
+            right: 25px;
+            bottom: 40px;
+            background-color: rgb(22 59 52 / 86%);
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 30%;
+            font-size: 18px;
+            text-decoration: none;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        /* Show state */
+        .topbtn.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* Optional hover */
+        .topbtn:hover {
+            background-color: #000;
+        }
+
+
         @media (max-width: 900px) {
 
             .site-header,
@@ -361,8 +400,48 @@ $tags = $tags ?? [];
             display: grid;
             grid-template-columns: 1fr;
         }
+
+
+
+        .pagination-wrapper ul {
+    display: flex;
+    list-style: none;
+    gap: 8px;
+    padding: 0;
+}
+
+.pagination-wrapper li a,
+.pagination-wrapper li span {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.pagination-wrapper li.active span {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+.pagination-wrapper li a:hover {
+    background: #f5f5f5;
+}
     </style>
 </main>
-<script></script>
+<script>
+    const topBtn = document.getElementById("topBtn");
+
+    window.addEventListener("scroll", function () {
+        const scrollPosition = window.scrollY;
+        const pageHeight = document.body.scrollHeight - window.innerHeight;
+
+        if (scrollPosition > pageHeight / 2) {
+            topBtn.classList.add("show");
+        } else {
+            topBtn.classList.remove("show");
+        }
+    });
+</script>
 
 <?= $this->endSection(); ?>

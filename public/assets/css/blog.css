@@ -74,8 +74,18 @@
   --headings-font-weight3: 300;
   --white: var(--bs-heading-color);
 }
-
-
+p{
+  font-family: "Nunito" , "Lato" !important;
+}
+h1{
+  font-family: "Merriweather" !important;
+}
+h2{
+  font-family: "Merriweather" !important;
+}
+h3{
+  font-family: "Merriweather" !important;
+}
 /* Dark green  */
 /* Hex : 20413a
    rgb : 32, 65, 58

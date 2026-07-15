@@ -22,7 +22,8 @@ class BlogModel extends Model
         'text',
         'tags',
         'date',
-        'slug'
+        'slug',
+        'src',
         
     ];
 

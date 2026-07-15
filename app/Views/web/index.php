@@ -1,7 +1,103 @@
 <?= $this->extend('web/components/assemble.php') ?>
 <?= $this->section('content'); ?>
 <main id="top">
+
+
+  <div class="preloader">
+    <span class="loader"></span>
+
+
+
+  </div>
+
+  <style>
+    .preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: #fff;
+      /* or your theme color */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    /* Hide state */
+    .preloader.hide {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader {
+      --color-1: rgb(22 59 52 / 86%);
+      --color-2: #FF0000;
+      --size: 2.15px;
+
+      width: calc(48 * var(--size));
+      height: calc(48 * var(--size));
+      border-radius: 50%;
+      display: inline-block;
+      position: relative;
+      border: calc(3 * var(--size)) solid;
+      border-color: var(--color-1) var(--color-1) transparent transparent;
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+    }
+
+    .loader::after,
+    .loader::before {
+      content: '';
+      box-sizing: border-box;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      border: calc(3 * var(--size)) solid;
+      border-color: transparent transparent var(--color-2) var(--color-2);
+      width: calc(40 * var(--size));
+      height: calc(40 * var(--size));
+      border-radius: 50%;
+      box-sizing: border-box;
+      animation: rotationBack 0.5s linear infinite;
+      transform-origin: center center;
+    }
+
+    .loader::before {
+      width: calc(32 * var(--size));
+      height: calc(32 * var(--size));
+      border-color: var(--color-1) var(--color-1) transparent transparent;
+      animation: rotation 1.5s linear infinite;
+    }
+
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes rotationBack {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(-360deg);
+      }
+    }
+  </style>
+
   <section class="hero" aria-labelledby="hero-title">
+
     <div class="hero-copy">
       <!-- <p class="eyebrow">Field notes from markets, kitchens, and old eating houses</p> -->
       <h2 id="hero-title">Food stories from the lanes where flavor still remembers.</h2>
@@ -135,18 +231,50 @@
       </p>
     </div>
     <a class="button primary" href="<?= base_url('recipes') ?>">Browse Recipes</a>
+    <a href="#top" class="topbtn text-white" id="topBtn"><i class="fa-solid fa-arrow-up"></i></a>
   </section>
 
-<style>
-  .post-card{
-    display: block;
 
-  }
-  ..post-card img{
-    min-height: 230px;
-    max-height: 230px;
-  }
-</style>
+  <style>
+    .post-card {
+      display: block;
+
+    }
+
+    .post-card img {
+      min-height: 230px;
+      max-height: 230px;
+    }
+
+    .topbtn {
+      position: fixed;
+      right: 25px;
+      bottom: 40px;
+      background-color: rgb(22 59 52 / 86%);
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 30%;
+      font-size: 18px;
+      text-decoration: none;
+      z-index: 9999;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+    }
+
+    /* Show state */
+    .topbtn.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    /* Optional hover */
+    .topbtn:hover {
+      background-color: #000;
+    }
+  </style>
 
   <script>
 
@@ -164,12 +292,12 @@
         applyFilters();
       });
 
-    
+
       filterButtons.forEach(button => {
         button.addEventListener("click", function () {
           activeFilter = this.dataset.filter.toLowerCase();
 
-        
+
           filterButtons.forEach(btn => btn.classList.remove("active"));
           this.classList.add("active");
 
@@ -177,7 +305,7 @@
         });
       });
 
-     
+
       function applyFilters() {
         const searchText = searchInput.value.toLowerCase();
 
@@ -200,6 +328,28 @@
         });
       }
 
+    });
+
+    window.addEventListener("load", function () {
+      const preloader = document.querySelector(".preloader");
+
+      setTimeout(() => {
+        preloader.classList.add("hide");
+      }, 500);
+    });
+
+
+    const topBtn = document.getElementById("topBtn");
+
+    window.addEventListener("scroll", function () {
+      const scrollPosition = window.scrollY;
+      const pageHeight = document.body.scrollHeight - window.innerHeight;
+
+      if (scrollPosition > pageHeight / 2) {
+        topBtn.classList.add("show");
+      } else {
+        topBtn.classList.remove("show");
+      }
     });
   </script>
 

@@ -9,6 +9,7 @@ $categories = $categories ?? [];
 ?>
 
 <main id="top">
+    <a id="top"></a>
     <section class="blog-list-hero" aria-labelledby="blog-list-title">
         <div>
             <p class="eyebrow">Food Notes</p>
@@ -128,6 +129,7 @@ $categories = $categories ?? [];
                 <?php endif; ?>
             </div>
         </div>
+        <a href="#top" class="topbtn text-white" id="topBtn"><i class="fa-solid fa-arrow-up"></i></a>
     </section>
 
     <style>
@@ -324,8 +326,50 @@ $categories = $categories ?? [];
             display: grid;
             grid-template-columns: 1fr;
         }
+
+        .topbtn {
+            position: fixed;
+            right: 25px;
+            bottom: 40px;
+            background-color: rgb(22 59 52 / 86%);
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 30%;
+            font-size: 18px;
+            text-decoration: none;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        /* Show state */
+        .topbtn.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* Optional hover */
+        .topbtn:hover {
+            background-color: #000;
+        }
     </style>
 </main>
-<script></script>
+<script>
+    const topBtn = document.getElementById("topBtn");
+
+    window.addEventListener("scroll", function () {
+        const scrollPosition = window.scrollY;
+        const pageHeight = document.body.scrollHeight - window.innerHeight;
+
+        if (scrollPosition > pageHeight / 2) {
+            topBtn.classList.add("show");
+        } else {
+            topBtn.classList.remove("show");
+        }
+    });
+</script>
 
 <?= $this->endSection(); ?>

@@ -18,7 +18,7 @@
                             <li class="breadcrumb-item">About</li>
                         </ul>
                     </nav>
-                    <div class="dz-btn">
+                    <!-- <div class="dz-btn">
                         <a href="tel:+919836125775"
                             class="btn btn-lg btn-icon radius-xl btn-shadow mb-3 mb-sm-0">
                             <span class="left-icon">
@@ -26,7 +26,7 @@
                             </span>
                             +91 98361 25775
                         </a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
@@ -126,7 +126,7 @@
 
             </div>
         </div>
-
+<a href="#top" class="topbtn text-white" id="topBtn"><i class="fa-solid fa-arrow-up"></i></a>
     </div>
 
     <style>
@@ -157,7 +157,85 @@
             background-color: #a7342c;
             color: white;
         }
+        .topbtn {
+            position: fixed;
+            right: 25px;
+            bottom: 40px;
+            background-color: rgb(22 59 52 / 86%);
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 30%;
+            font-size: 18px;
+            text-decoration: none;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        /* Show state */
+        .topbtn.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* Optional hover */
+        .topbtn:hover {
+            background-color: #000;
+        }
+
+        @media (max-width: 640px)
+        {
+            .section
+            {
+                flex-direction: column !important;
+            } 
+            .panel {
+                width: 75% !important;
+            }
+            .header1{
+                text-align: center !important;
+                align-items: center !important;
+                justify-content: center !important;
+                width: 100% !important;
+                padding-left: 30px;
+            }
+        }
+
+        @media (max-width: 900px) 
+        {
+            .section
+            {
+                flex-direction: column !important;
+            } 
+            .panel {
+                width: 75% !important;
+            }
+            .header1{
+                text-align: center !important;
+                align-items: center !important;
+                justify-content: center !important;
+                width: 100% !important;
+                padding-left: 30px;
+            }
+        }
     </style>
+    <script>
+         const topBtn = document.getElementById("topBtn");
+
+    window.addEventListener("scroll", function () {
+        const scrollPosition = window.scrollY;
+        const pageHeight = document.body.scrollHeight - window.innerHeight;
+
+        if (scrollPosition > pageHeight / 2) {
+            topBtn.classList.add("show");
+        } else {
+            topBtn.classList.remove("show");
+        }
+    });
+    </script>
 </main>
 
 <?= $this->endSection(); ?>

@@ -53,6 +53,12 @@
                         value="<?= $blogs['meta_description'] ?>" placeholder="less than 255 characters"></input>
                 </div>
 
+                 <div class="form-group mb-3">
+                    <label><strong>Location</strong></label>
+                    <input class="form-control" name="src" rows="3" maxlength="500"
+                        value="<?= $blogs['src'] ?>" placeholder="less than 500 characters"></input>
+                </div>
+
                 <div class="form-group mb-3">
                     <label><strong>Slug</strong></label>
                     <input class="form-control" name="slug" maxlength="255" value="<?= $blogs['slug'] ?>"
@@ -161,7 +167,7 @@
 
         <!-- CKEditor Wrapper -->
         <div id="editorWrapper">
-            <textarea id="ckeditor" class="form-control"></textarea>
+            <textarea id="ckeditor" class="form-control"><?= $blogs['text'] ?></textarea>
         </div>
 
         <!-- CodeMirror Wrapper -->
@@ -169,8 +175,12 @@
             <textarea id="codemirrorEditor" class="form-control"></textarea>
         </div>
 
+
+        <!-- <input type="hidden" name=""> -->
         <!-- Hidden description field for submission -->
-        <textarea name="text" id="finalContent" value="<?= $blogs['text'] ?>" hidden></textarea>
+
+
+        <textarea name="text" id="finalContent" value="<?= $blogs['text'] ?>" type="hidden"></textarea>
 
         <button type="submit" class="btn btn-primary mt-3" data-id="<?= $blogs['id'] ?? 0 ?>">💾 Save Blog</button>
     </form>

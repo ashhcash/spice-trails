@@ -1,7 +1,7 @@
 <?= $this->extend('web/components/assemble.php') ?>
 <?= $this->section('content') ?>
 <main>
-   
+
 
 
 
@@ -47,12 +47,39 @@
                     .blog-link {
                         color: #a7342c;
                     }
-                    .single-inner
-                    {
+
+                    .single-inner {
                         width: 100% !important;
                     }
 
-                   
+                    .topbtn {
+                        position: fixed;
+                        right: 25px;
+                        bottom: 40px;
+                        background-color: rgb(22 59 52 / 86%);
+                        color: #fff;
+                        padding: 12px 16px;
+                        border-radius: 30%;
+                        font-size: 18px;
+                        text-decoration: none;
+                        z-index: 9999;
+                        opacity: 0;
+                        visibility: hidden;
+                        transform: translateY(20px);
+                        transition: all 0.3s ease;
+                    }
+
+                    /* Show state */
+                    .topbtn.show {
+                        opacity: 1;
+                        visibility: visible;
+                        transform: translateY(0);
+                    }
+
+                    /* Optional hover */
+                    .topbtn:hover {
+                        background-color: #000;
+                    }
                 </style>
 
 
@@ -60,8 +87,22 @@
 
             </div>
         </div>
+        <a href="#top" class="topbtn text-white" id="topBtn"><i class="fa-solid fa-arrow-up"></i></a>
     </section>
+<script>
+     const topBtn = document.getElementById("topBtn");
 
+    window.addEventListener("scroll", function () {
+        const scrollPosition = window.scrollY;
+        const pageHeight = document.body.scrollHeight - window.innerHeight;
+
+        if (scrollPosition > pageHeight / 2) {
+            topBtn.classList.add("show");
+        } else {
+            topBtn.classList.remove("show");
+        }
+    });
+</script>
 </main>
 
 
