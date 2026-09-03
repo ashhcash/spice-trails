@@ -62,10 +62,7 @@
                     <div class="single-media dz-media height-md radius-lg wow fadeInUp" data-wow-delay="0.1s"
                         data-wow-duration="0.7s"
                         style="visibility: visible; animation-duration: 0.7s; animation-delay: 0.1s; animation-name: fadeInUp;">
-                        <div class="glass header-secondary btn" id="btn">
-                            <span><?= esc(date('M d, Y ', $timestamp)) ?></span>
-                            <span> / <?= implode(' , ', $selectedTags) ?? '' ?> </span>
-                        </div>
+                       
                         <img src="<?= base_url('public/assets/' . $blogdata['blog_image']) ?>" alt=""
                             class="object-fit-cover">
 
@@ -73,7 +70,11 @@
 
                     <div class="content-item wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="0.7s"
                         style=" animation-duration: 0.7s; animation-delay: 0.2s; animation-name: none;">
-                        <h2 class="pt-3"><b><?= $blogdata['blog_name'] ?></b></h2>
+                        <h1 class="pt-3"><b><?= $blogdata['blog_name'] ?></b></h1>
+                         <div class="btn btn-light" id="btn">
+                            <span><?= esc(date('M d, Y ', $timestamp)) ?></span>
+                            <span> | <?= implode(' , ', $selectedTags) ?? '' ?> </span>
+                        </div>
 
                         <p class="pt-2 text-secondary fw-normal"><?= $blogdata['description'] ?></p>
                         <p class="pt-2 text-secondary fw-normal"><?= $blogdata['text'] ?></p>

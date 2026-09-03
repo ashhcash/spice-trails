@@ -15,7 +15,7 @@ class Home extends BaseController
     {
         $model = new BlogModel();
         $data['blogdata'] = $model->orderBy('date', 'DESC')
-            ->findAll(8);
+            ->findAll(6);
 
         $categorymodel = new CategoryModel();
 

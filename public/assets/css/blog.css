@@ -5952,7 +5952,7 @@ fieldset:disabled .btn {
 
 @media (prefers-reduced-motion: reduce) {
   .progress-bar-animated {
-    animation: none;
+    /* animation: none; */
   }
 }
 
